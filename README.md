@@ -9,3 +9,4 @@
 
 ### Resources
 - [GenWealth](https://genwealth.app)
+- [GitHub Repo](https://github.com/selfdriven-foundation/selfdriven-finance)
