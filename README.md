@@ -8,5 +8,6 @@
 - [selfdriven.foundation/connect](https://selfdriven.foundation/connect)
 
 ### Resources
-- [GenWealth](https://genwealth.app)
-- [GitHub Repo](https://github.com/selfdriven-foundation/selfdriven-finance)
+- **[GitHub Repo](https://github.com/selfdriven-foundation/selfdriven-finance)**
+- [selfdriven.exchange](https://selfdriven.exchange) - exhange protocol/platform to support the finance / funding
+- [GenWealth](https://genwealth.app) - protocol for protecting crypto wealth
