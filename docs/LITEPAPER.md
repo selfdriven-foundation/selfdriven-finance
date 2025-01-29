@@ -1,5 +1,5 @@
-# **selfdriven Finance Exchange**  
-**Litepaper (v0.0.1)**  
+# **selfdriven Finance Exchange Litepaper (v0.0.1)**  
+
 *Powering Communities through Digital Assets and Traditional Finance Integration*
 
 **Abstract**
