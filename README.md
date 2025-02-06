@@ -12,3 +12,4 @@
 - **[GitHub Repo](https://github.com/selfdriven-foundation/selfdriven-finance)**
 - [selfdriven.exchange](https://selfdriven.exchange) - exhange protocol/platform to support the finance / funding
 - [GenWealth](https://genwealth.app) - protocol for protecting crypto wealth
+- [meteraprotocol.io](https://www.meteraprotocol.io)
