@@ -11,7 +11,7 @@
 
 ### Resources
 - **[GitHub Repo](https://github.com/selfdriven-foundation/selfdriven-finance)**
-- [selfdriven.exchange](https://selfdriven.exchange) - exhange protocol/platform to support the finance protocol / framework.
+- [selfdriven.exchange](https://selfdriven.exchange) - exhange protocol/platform to support selfdriven.finance.
 
 ----
 [selfdriven.finance](https://selfdriven.finance)
