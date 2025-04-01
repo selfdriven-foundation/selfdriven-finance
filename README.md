@@ -9,7 +9,7 @@
 ### Resources
 - **[GitHub Repo](https://github.com/selfdriven-foundation/selfdriven-finance)**
 - [selfdriven.exchange](https://selfdriven.exchange) - exhange protocol/platform to support selfdriven.finance.
-- [Funding](https://github.com/selfdriven-foundation/selfdriven-finance//tree/main/funding)**
+- [Funding](https://github.com/selfdriven-foundation/selfdriven-finance//tree/main/funding)
 
 
 ### Contact Us
