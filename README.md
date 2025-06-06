@@ -1,6 +1,6 @@
-### Access to funding/finance to help communities self-actuate.
+## Access to funding/finance to help communities self-actuate.
 
-### "Bringing the value of bitcoin to communities"
+### Bringing the value of bitcoin to communities
 
 ### Status
 - Research & Development
