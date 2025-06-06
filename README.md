@@ -12,6 +12,8 @@
 
 ### References
 - [x402.org](https://x402.org)
+- [sundialprotocol.com](https://www.sundialprotocol.com)
+- [utxo.family](https://utxo.family)
 
 ### Contact Us
 - [selfdriven.foundation/connect](https://selfdriven.foundation/connect)
