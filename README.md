@@ -16,6 +16,7 @@
 - [utxo.family](https://utxo.family)
 - [Cardinals](https://iohk.io/jp/newsroom/bitcoin-ordinals-bridged-to-cardano-for-the-first-time-with-bitvmx-protocol)
 - [Cardinals Spec](https://github.com/input-output-hk/cardinal-spec)
+- [Lenfi SDK](https://github.com/lenfiLabs/lenfi-sdk)
 
 ### Contact Us
 - [selfdriven.foundation/connect](https://selfdriven.foundation/connect)
