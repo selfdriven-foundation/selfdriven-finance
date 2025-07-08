@@ -19,7 +19,7 @@
 - [Lenfi SDK](https://github.com/lenfiLabs/lenfi-sdk)
 
 ### Contact Us
-- [selfdriven.foundation/connect](https://selfdriven.foundation/connect)
+- [selfdriven.foundation/connect](https://selfdriven.fyi/connect)
 
 ----
 [selfdriven.finance](https://selfdriven.finance)
