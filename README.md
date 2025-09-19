@@ -10,6 +10,9 @@
 - [selfdriven.exchange](https://selfdriven.exchange) - exhange protocol/platform to support selfdriven.finance.
 - [Funding](https://github.com/selfdriven-foundation/selfdriven-finance//tree/main/funding/cardano)
 
+### Research
+- [AI Virtual Agent Economies](https://arxiv.org/html/2509.10147v1)
+
 ### Tech References
 - [x402.org](https://x402.org)
 - [sundialprotocol.com](https://www.sundialprotocol.com)
