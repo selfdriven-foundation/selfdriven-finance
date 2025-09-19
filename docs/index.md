@@ -24,7 +24,6 @@ title: Home
 - [Cardinals Spec](https://github.com/input-output-hk/cardinal-spec)
 - [Lenfi SDK](https://github.com/lenfiLabs/lenfi-sdk)
 
-
 ### Contact Us
 - [selfdriven.fyi/connect](https://selfdriven.fyi/connect)
 
