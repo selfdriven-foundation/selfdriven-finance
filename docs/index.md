@@ -4,18 +4,18 @@ title: Home
 ---
 
 ### Purpose
+
 - Access to funding/finance to help communities self-actuate.
 - Bringing the value of bitcoin to communities.
 - [Litepaper](/litepaper/)
 
-### Status
-- Research & Development
-
 ### Resources
+
+- [Activity & Growth Cycle Financing for Self-Actuating Communities](/communities/activity-growth-cycle/)
 - [selfdriven.exchange](https://selfdriven.exchange) - exhange protocol/platform to support selfdriven.finance.
-- [Funding](https://github.com/selfdriven-foundation/selfdriven-finance//tree/main/funding/cardano)
 
 ### Tech References
+
 - [x402.org](https://x402.org)
 - [Agent Payments Protocol (AP2)](https://ap2-protocol.org)
 - [sundialprotocol.com](https://www.sundialprotocol.com)
@@ -25,6 +25,7 @@ title: Home
 - [Lenfi SDK](https://github.com/lenfiLabs/lenfi-sdk)
 
 ### Contact Us
+
 - [selfdriven.fyi/connect](https://selfdriven.fyi/connect)
 
 ### Related
