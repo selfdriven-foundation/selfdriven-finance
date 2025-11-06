@@ -7,18 +7,19 @@ tags: [finance, defi, bitcoin, cardano, community, os, selfdriven]
 permalink: /communities/activity-growth-cycle/
 ---
 
-## Activity & Growth Cycle Financing for Self-Actuating Communities
-
-<img src="/assets/img/selfdriven-finance-activity-growth.png" style="border-radius: 12px; width:100%; max-width: 800px;">
+## Activity & Growth Financing for Self-Actuating Communities
 
 **From Permissionless Capital to Purposeful Growth**
 
-The **selfdriven.finance** model connects **Bitcoin (permissionless capital)** and **Cardano (permissionless DeFi)** to power **community-driven growth**.  
+selfdriven.finance connects Bitcoin (permissionless capital) and Cardano (permissionless DeFi) to power community-driven growth.  
 It channels long-term crypto capital into local, purpose-aligned initiatives — turning *yield* into *impact*.
+
+<img src="/assets/img/selfdriven-finance-activity-growth.png" style="border-radius: 12px; width:100%; max-width: 800px;">
 
 ### 1. Bitcoin Network → Permissionless Capital
 
-Bitcoin holders form the foundation.  
+Bitcoin holders form the foundation.
+
 By depositing BTC into **Taproot addresses**, they make their capital productive through **BitVMX** and **Cardinals** protocols.
 
 *This converts idle BTC into collateral — enabling stable, interest-bearing lending and liquidity while preserving decentralisation.*
@@ -34,9 +35,10 @@ Cardano provides the programmable finance layer.
 Here, collateralised BTC supports **USDM** (provable, USD-backed 1:1) and related stablecoins.
 
 These assets power:
-- **Lending pools (P2P or perpetual)**  
-- **Interest-bearing loans**  
-- **Automated liquidation** (via on-chain lending protocols)  
+
+- Lending pools (P2P or perpetual)
+- Interest-bearing loans
+- Automated liquidation (via on-chain lending protocols)  
 
 *The Cardano extended UTxO model ensures every transaction is deterministic, auditable, and composable.*
 
@@ -44,15 +46,16 @@ If thresholds drop, collateral is sold, and bad debt is recorded on-chain — pr
 
 ### 3. selfdrivenOS → Coordination & Trust
 
-The `selfdrivenOS` layer (Organisational System) links financial flows to *human trust systems*.
+The *selfdrivenOS* layer (Organisational System) links financial flows to *human trust systems*.
 
 It governs:
-- **Allocation of funds** (who gets what and why)  
-- **Voting, reputation & decision tracking**  
-- **Interest & threshold maintenance**  
-- **Identity verification via Verifiable Credentials**
 
-`selfdrivenOS` ensures that community organisations and facilitators can coordinate transparently — embedding governance directly into the financing cycle.
+- Allocation of funds (who gets what and why)  
+- Voting, reputation & decision tracking  
+- Interest & threshold maintenance
+- Identity verification via Verifiable Credentials
+
+*selfdrivenOS* ensures that community organisations and facilitators can coordinate transparently — embedding governance directly into the financing cycle.
 
 *Every allocation, conversation, and decision builds verifiable trust.*
 
@@ -68,19 +71,21 @@ Facilitating organisations support this process by guiding:
 
 *Each completed project strengthens the community’s credibility and access to future capital.*
 
-## 5. Accountability & Feedback Loop**
+### 5. Accountability & Feedback Loop
 
-The cycle completes through **accountability proofs**.
+The cycle completes through accountability proofs.
 
 When projects generate outcomes:
+
 - Interest is paid to lenders  
 - Collateral is released to Bitcoin holders  
 - Results are verified and recorded on-chain  
 
 If a default occurs:
+
 - Collateral is liquidated  
 - USDM debt is covered  
-- The **Bad Debt Register** maintains integrity across lending pools
+- The Bad Debt Register maintains integrity across lending pools
 
 *This creates a self-correcting loop — aligning finance, governance, and reputation.*
 
@@ -93,9 +98,9 @@ Each cycle of *selfdriven.finance* strengthens two networks:
 
 Together, they create a **regenerative economic engine** — where every transaction reinforces community resilience.
 
-**Bitcoin provides the roots.**  
-**Cardano grows the branches.**  
-**Communities bear the fruit.**
+*Bitcoin provides the roots.* 
+*Cardano grows the branches.*  
+*Communities bear the fruit.*
 
 ---
 
