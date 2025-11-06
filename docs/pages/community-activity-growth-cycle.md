@@ -89,7 +89,7 @@ If a default occurs:
 
 *This creates a self-correcting loop — aligning finance, governance, and reputation.*
 
-### Outcome: Regenerative Finance**
+### Outcome: Regenerative Finance
 
 Each cycle of *selfdriven.finance* strengthens two networks:
 

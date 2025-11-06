@@ -15,14 +15,14 @@ The selfdriven.finance liquidation flow ensures that both Bitcoin collateral and
 
 <img src="/assets/img/selfdriven-finance-bitcoin-defi-liquidation.png" style="border-radius: 12px; width:100%; max-width: 800px;">
 
-### 1. The Starting Point — Collateralised Bitcoin**
+### 1. The Starting Point — Collateralised Bitcoin
 
 Bitcoin holders deposit BTC into **Taproot addresses**, which serve as verifiable collateral vaults.  
 These addresses can be linked via **BitVMX** or similar bridging logic to the Cardano DeFi layer, enabling capital to back stable assets such as **USDM**.
 
 *Collateral remains provably owned by the depositor while being productive within lending pools.*
 
-### 2. Loan Creation — USD-Backed Stability**
+### 2. Loan Creation — USD-Backed Stability
 
 On the Cardano network, the collateral enables issuance of USDM (or alike), a provable, USD-backed stable asset.  
 Loans can be structured as:
@@ -33,7 +33,7 @@ Loans can be structured as:
 
 Borrowers — typically Community Organisations — use these funds for projects under selfdrivenOS governance (education, health, local enterprise, sustainability, etc.).
 
-### 3. Risk and Interest Management**
+### 3. Risk and Interest Management
 
 selfdrivenOS provides oversight of repayment schedules, thresholds, and interest flows.  
 
@@ -45,7 +45,7 @@ It continuously monitors key metrics such as:
 
 *Communities that consistently repay maintain or improve their credit thresholds — gaining access to larger pools and better terms.*
 
-### 4. Liquidation Pathway — When Collateral Falls**
+### 4. Liquidation Pathway — When Collateral Falls
 
 If collateral value drops or repayment fails, the DeFi protocol triggers automated liquidation.
 
@@ -57,7 +57,7 @@ If collateral value drops or repayment fails, the DeFi protocol triggers automat
 
 This ensures every lending position is transparently resolved and no systemic debt accumulates unseen.
 
-### 5. The Bad Debt Register — On-Chain Accountability**
+### 5. The Bad Debt Register — On-Chain Accountability
 
 The Bad Debt Register operates as a public, immutable record of liquidations and defaults.  
 It is accessible by selfdrivenOS lenders, and community facilitators to inform governance and risk decisions.
@@ -66,7 +66,7 @@ It is accessible by selfdrivenOS lenders, and community facilitators to inform g
 
 Borrowing reputation (positive or negative) then influences future access to capital across the network.
 
-### 6. Threshold Maintenance & Reputation Recovery**
+### 6. Threshold Maintenance & Reputation Recovery
 
 Through selfdrivenOS, communities can restore their borrowing reputation by:
 
