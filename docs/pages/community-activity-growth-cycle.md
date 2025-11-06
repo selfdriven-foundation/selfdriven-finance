@@ -104,5 +104,5 @@ Together, they create a **regenerative economic engine** — where every transac
 
 ---
 
-<img src="/assets/img/selfdriven-finance-bitcoin-defi.png" style="border-radius: 12px; width:100%; max-width: 800px;">
+- [About Liquidation Risks](/communities/activity-growth-cycle/liquidation/)
 
