@@ -28,6 +28,7 @@ title: Home
 
 ### Related
 
+- [selfdriven.community](https://selfdriven.community)
 - [selfdriven.id](https://selfdriven.id) - Identity & Trust
 - [octology.io](https://octology.io)
 - [selfdriven.ai](https://selfdriven.ai)
