@@ -11,9 +11,9 @@ title: Home
 
 ### Resources
 
-- [Litepaper](/litepaper/)
 - [Activity & Growth Cycle Financing for Self-Actuating Communities](/communities/activity-growth-cycle/)
 - [selfdriven.exchange](https://selfdriven.exchange) - protocol/service to support selfdriven.finance.
+- [Litepaper](/litepaper/)
 
 ### Tech References
 
