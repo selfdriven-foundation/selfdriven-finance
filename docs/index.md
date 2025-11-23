@@ -32,4 +32,5 @@ title: Home
 - [selfdriven.id](https://selfdriven.id) - Identity & Trust
 - [octology.io](https://octology.io)
 - [selfdriven.ai](https://selfdriven.ai)
-- [selfdriven.institute](https://selfdriven.institute)
+- [selfdriven.institute](https://selfdriven.institute) - Research
+- [selfdriven.network](https://selfdriven.network) - Tech & Infra Interfaces
