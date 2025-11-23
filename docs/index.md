@@ -7,10 +7,11 @@ title: Home
 
 - Access to funding/finance to help communities self-actuate.
 - Bringing the value of bitcoin to communities.
-- [Litepaper](/litepaper/)
+- A place for TradFi experts who want to transition to DeFi.
 
 ### Resources
 
+- [Litepaper](/litepaper/)
 - [Activity & Growth Cycle Financing for Self-Actuating Communities](/communities/activity-growth-cycle/)
 - [selfdriven.exchange](https://selfdriven.exchange) - exhange protocol/platform to support selfdriven.finance.
 
