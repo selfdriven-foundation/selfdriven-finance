@@ -5,7 +5,7 @@ title: Home
 
 ### Purpose
 
-- Access to in community and external finance to help communities self-actuate.
+- Access to in-community and external finance to help communities self-actuate.
 - Bringing the value of bitcoin to communities.
 - A place for TradFi experts who want to transition to DeFi.
 
