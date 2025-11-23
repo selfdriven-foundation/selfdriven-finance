@@ -23,6 +23,7 @@ title: Home
 - [utxo.family](https://utxo.family)
 - [Cardinals](https://iohk.io/jp/newsroom/bitcoin-ordinals-bridged-to-cardano-for-the-first-time-with-bitvmx-protocol)
 - [Cardinals Spec](https://github.com/input-output-hk/cardinal-spec)
+- [Managed Contracts](https://docs.gomaestro.org/cardano/managed-contracts-api/overview)
 
 ### Contact Us
 
