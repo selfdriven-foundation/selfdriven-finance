@@ -32,10 +32,10 @@ title: Home
 ### Related
 
 - [selfdriven.id](https://selfdriven.id) - Identity & Trust
-- [skillzeb.io](https://skillzeb.io) - templates
-- [heyOcto.ai](https://heyocto.ai) - templates
-- [selfdriven.fyi/intelligence](https://selfdriven.fyi/intelligence)
-- [selfdriven.fyi/research](https://selfdriven.fyi/research)
-- [selfdriven.university](https://selfdriven.university)
+- [octology.io](https://octology.io)
+- [heyOcto.ai](https://heyocto.ai)
+- [selfdriven.ai](https://selfdriven.ai)
+- [research.selfdriven.foundation](https://research.selfdriven.foundation)
+- [selfdriven.institute](https://selfdriven.institute)
 
 
