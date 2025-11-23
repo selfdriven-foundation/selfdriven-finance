@@ -33,9 +33,5 @@ title: Home
 
 - [selfdriven.id](https://selfdriven.id) - Identity & Trust
 - [octology.io](https://octology.io)
-- [heyOcto.ai](https://heyocto.ai)
 - [selfdriven.ai](https://selfdriven.ai)
-- [research.selfdriven.foundation](https://research.selfdriven.foundation)
 - [selfdriven.institute](https://selfdriven.institute)
-
-
