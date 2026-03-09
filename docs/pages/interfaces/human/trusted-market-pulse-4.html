@@ -1,3 +1,9 @@
+---
+layout: null
+title: "Trusted Market Pulse | selfdriven Finance"
+description: "Real-time oracle data with identity-anchored accountability. Every price feed query, every alert, every signal — signed and verifiable against your KERI AID."
+permalink: /interfaces/human/trusted-market-pulse
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -595,47 +601,67 @@ function startStream() {
 }
 
 function connectStream() {
-  try {
-    const url = buildStreamUrl();
-    eventSource = new EventSource(url);
+  // Always do an immediate REST fetch so data shows instantly
+  fetchInitialPrices().then(() => {
+    // Then open SSE for ongoing updates
+    try {
+      const url = buildStreamUrl();
+      eventSource = new EventSource(url);
 
-    eventSource.onopen = () => {
-      const rateLabel = document.getElementById('updateRate').selectedOptions[0].text;
-      setStatus('connected', `Streaming from Pyth Hermes (${rateLabel})`);
-      document.getElementById('streamBadge').textContent = 'STREAMING';
-      document.getElementById('streamBadge').className = 'card-badge badge-live';
-      document.getElementById('configBadge').textContent = 'CONNECTED';
-      document.getElementById('configBadge').className = 'card-badge badge-live';
-      addAuditEntry('SSE stream connected', 'ixn', 'Pyth Hermes');
-    };
+      eventSource.onopen = () => {
+        const rateLabel = document.getElementById('updateRate').selectedOptions[0].text;
+        setStatus('connected', `Streaming from Pyth Hermes (${rateLabel})`);
+        document.getElementById('streamBadge').textContent = 'STREAMING';
+        document.getElementById('streamBadge').className = 'card-badge badge-live';
+        document.getElementById('configBadge').textContent = 'CONNECTED';
+        document.getElementById('configBadge').className = 'card-badge badge-live';
+        addAuditEntry('SSE stream connected', 'ixn', 'Pyth Hermes');
+      };
 
-    // Throttle SSE updates based on selected rate
-    let lastSSEUpdate = 0;
-    const getThrottleMs = () => (parseInt(document.getElementById('updateRate').value) || 60) * 1000;
+      // Throttle SSE updates based on selected rate
+      let lastSSEUpdate = Date.now(); // start from now since we just did initial fetch
+      const getThrottleMs = () => (parseInt(document.getElementById('updateRate').value) || 60) * 1000;
 
-    eventSource.onmessage = (event) => {
-      try {
-        const now = Date.now();
-        if (now - lastSSEUpdate < getThrottleMs()) return; // throttle
-        lastSSEUpdate = now;
-        const data = JSON.parse(event.data);
-        if (data.parsed && Array.isArray(data.parsed)) {
-          data.parsed.forEach(processPriceFeed);
+      eventSource.onmessage = (event) => {
+        try {
+          const now = Date.now();
+          if (now - lastSSEUpdate < getThrottleMs()) return; // throttle
+          lastSSEUpdate = now;
+          const data = JSON.parse(event.data);
+          if (data.parsed && Array.isArray(data.parsed)) {
+            data.parsed.forEach(processPriceFeed);
+          }
+        } catch(e) {
+          console.warn('Parse error:', e);
         }
-      } catch(e) {
-        console.warn('Parse error:', e);
-      }
-    };
+      };
 
-    eventSource.onerror = (err) => {
-      console.warn('SSE error, falling back to REST polling:', err);
-      stopStream();
+      eventSource.onerror = (err) => {
+        console.warn('SSE error, falling back to REST polling:', err);
+        stopStream();
+        startRestPolling();
+      };
+
+    } catch(e) {
+      console.warn('SSE not available, using REST polling:', e);
       startRestPolling();
-    };
+    }
+  });
+}
 
+async function fetchInitialPrices() {
+  try {
+    setStatus('connecting', 'Fetching initial prices...');
+    const resp = await fetch(buildRestUrl());
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    if (data.parsed && Array.isArray(data.parsed)) {
+      data.parsed.forEach(processPriceFeed);
+      setStatus('connected', `Loaded ${data.parsed.length} feeds`);
+      addAuditEntry('Initial price snapshot loaded', 'ixn', `${data.parsed.length} feeds`);
+    }
   } catch(e) {
-    console.warn('SSE not available, using REST polling:', e);
-    startRestPolling();
+    console.warn('Initial fetch failed (will retry via stream):', e);
   }
 }
 
