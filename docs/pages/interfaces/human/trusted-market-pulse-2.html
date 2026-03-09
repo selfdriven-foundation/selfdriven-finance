@@ -1,14 +1,14 @@
+---
+layout: null
+title: "Trusted Market Pulse | selfdriven Finance"
+description: "Real-time oracle data with identity-anchored accountability. Every price feed query, every alert, every signal — signed and verifiable against your KERI AID."
+permalink: /interfaces/human/trusted-market-pulse
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="/assets/img/selfdriven-logo-round-blackcurrant-flamingo.png">
-	<link rel="apple-touch-icon" href="/assets/img/selfdriven-logo-round-blackcurrant-flamingo.png" />
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-  
 <title>Trusted Market Pulse — selfdriven.finance</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -482,16 +482,70 @@ footer{padding:40px 32px;border-top:1px solid var(--border);display:flex;justify
 
 <script>
 // ═══════════════════════════════════════════════════════
-// PYTH PRICE FEED IDS (Stable / Mainnet)
+// PYTH FEED DEFINITIONS (ids resolved dynamically)
 // ═══════════════════════════════════════════════════════
-const PYTH_FEEDS = [
-  { pair:'ADA/USD',  id:'0x2a01deaec9e51a579277b34b122399984d0bbf57e2458a7e42fecd2829867a0d', icon:'₳', color:'#0033ad', decimals:6 },
-  { pair:'BTC/USD',  id:'0xe62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43', icon:'₿', color:'#f7931a', decimals:2 },
-  { pair:'ETH/USD',  id:'0xff61491a931112ddf1bd8147cd1b641375f79f5825126d665480874634fd0ace', icon:'Ξ', color:'#627eea', decimals:2 },
-  { pair:'SOL/USD',  id:'0xef0d8b6fda2ceba41da15d4095d1da392a0d2f8ed0c6c7bc0f4cfac8c280b56d', icon:'◎', color:'#9945ff', decimals:2 },
-  { pair:'DOGE/USD', id:'0xdcef50dd0a4cd2dcc17e45df1676dcb336a11a61c69df7a0299b0150c672d25c', icon:'Ð', color:'#c3a634', decimals:6 },
-  { pair:'DOT/USD',  id:'0xca3eed9b267293f6595a7585ef35ef1de77e8088c434a4d73ef73aea0ceb2b4e', icon:'●', color:'#e6007a', decimals:4 },
+const FEED_DEFS = [
+  { pair:'ADA/USD',  symbol:'Crypto.ADA/USD',  icon:'₳', color:'#0033ad', decimals:6 },
+  { pair:'BTC/USD',  symbol:'Crypto.BTC/USD',  icon:'₿', color:'#f7931a', decimals:2 },
+  { pair:'ETH/USD',  symbol:'Crypto.ETH/USD',  icon:'Ξ', color:'#627eea', decimals:2 },
+  { pair:'SOL/USD',  symbol:'Crypto.SOL/USD',  icon:'◎', color:'#9945ff', decimals:2 },
+  { pair:'DOGE/USD', symbol:'Crypto.DOGE/USD', icon:'Ð', color:'#c3a634', decimals:6 },
+  { pair:'XRP/USD',  symbol:'Crypto.XRP/USD',  icon:'✕', color:'#23292f', decimals:4 },
 ];
+
+let PYTH_FEEDS = []; // populated after dynamic resolution
+
+// ═══════════════════════════════════════════════════════
+// DYNAMIC FEED ID RESOLUTION
+// ═══════════════════════════════════════════════════════
+async function resolveFeedIds() {
+  const base = document.getElementById('hermesUrl').value.replace(/\/+$/, '');
+  setStatus('connecting', 'Resolving Pyth feed IDs...');
+
+  try {
+    // Hermes v2 endpoint to list all available price feeds
+    const resp = await fetch(`${base}/v2/price_feeds?query=&asset_type=crypto`);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const allFeeds = await resp.json();
+
+    // Build a map: symbol -> id
+    const symbolMap = {};
+    allFeeds.forEach(f => {
+      // Hermes returns {id, attributes: {symbol, asset_type, ...}}
+      const sym = f.attributes?.symbol || f.attributes?.base + '/' + f.attributes?.quote_currency;
+      if (sym) symbolMap[sym] = '0x' + f.id;
+    });
+
+    PYTH_FEEDS = FEED_DEFS.map(def => {
+      const resolvedId = symbolMap[def.symbol];
+      if (resolvedId) {
+        return { ...def, id: resolvedId };
+      } else {
+        console.warn(`Feed not found for ${def.symbol}, skipping`);
+        return null;
+      }
+    }).filter(Boolean);
+
+    if (PYTH_FEEDS.length === 0) throw new Error('No feeds resolved');
+
+    console.log(`Resolved ${PYTH_FEEDS.length} feed IDs:`, PYTH_FEEDS.map(f => `${f.pair}=${f.id.slice(0,10)}...`));
+    setStatus('connected', `Resolved ${PYTH_FEEDS.length} feed IDs from Hermes`);
+    addAuditEntry(`Resolved ${PYTH_FEEDS.length} Pyth feed IDs`, 'ixn', 'Hermes v2/price_feeds');
+
+    // Init price state for resolved feeds
+    PYTH_FEEDS.forEach(f => {
+      priceState[f.id] = { price: null, conf: null, expo: -8, publishTime: null, prevPrice: null, history: [] };
+    });
+
+    renderPriceTable();
+    return true;
+
+  } catch(e) {
+    console.error('Feed resolution failed:', e);
+    setStatus('error', `Feed resolution failed: ${e.message}`);
+    return false;
+  }
+}
 
 // ═══════════════════════════════════════════════════════
 // STATE
@@ -503,10 +557,6 @@ let keriState = { authenticated: false, aid: null, sn: 0, credentialId: null, pu
 let auditEntries = [];
 const ADA_CHART_DATA = [];
 const MAX_CHART_POINTS = 60;
-
-PYTH_FEEDS.forEach(f => {
-  priceState[f.id] = { price: null, conf: null, expo: -8, publishTime: null, prevPrice: null, history: [] };
-});
 
 // ═══════════════════════════════════════════════════════
 // PYTH HERMES SSE STREAMING
@@ -527,7 +577,17 @@ function startStream() {
   stopStream();
   setStatus('connecting', 'Connecting to Pyth Hermes...');
 
-  // First try SSE streaming
+  // Resolve feed IDs dynamically first, then connect
+  resolveFeedIds().then(ok => {
+    if (!ok || PYTH_FEEDS.length === 0) {
+      setStatus('error', 'Could not resolve feed IDs. Check Hermes endpoint.');
+      return;
+    }
+    connectStream();
+  });
+}
+
+function connectStream() {
   try {
     const url = buildStreamUrl();
     eventSource = new EventSource(url);
@@ -617,7 +677,8 @@ function processPriceFeed(parsed) {
   if (state.history.length > 30) state.history.shift();
 
   // ADA chart
-  if (id === PYTH_FEEDS[0].id) {
+  const adaFeed = PYTH_FEEDS.find(f => f.pair === 'ADA/USD');
+  if (adaFeed && id === adaFeed.id) {
     ADA_CHART_DATA.push({ time: state.publishTime, price: priceVal });
     if (ADA_CHART_DATA.length > MAX_CHART_POINTS) ADA_CHART_DATA.shift();
     document.getElementById('adaLiveBadge').textContent = 'LIVE';

@@ -23,7 +23,7 @@ title: selfdriven Finance
 - [Managed Contracts](https://docs.gomaestro.org/cardano/managed-contracts-api/overview)
 
 ### Interfaces
-- [Human]
+- Human
 	- [Trusted Market Pulse (Pyth)](/interfaces/human/trusted-market-pulse)
 
 ### Contact Us
