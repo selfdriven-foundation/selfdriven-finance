@@ -1,8 +1,19 @@
+---
+layout: null
+title: "Trusted Market Pulse | selfdriven Finance"
+description: "Real-time oracle data with identity-anchored accountability. Every price feed query, every alert, every signal — signed and verifiable against your KERI AID."
+permalink: /interfaces/human/trusted-market-pulse
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="/assets/img/selfdriven-logo-round-blackcurrant-flamingo.png">
+	<link rel="apple-touch-icon" href="/assets/img/selfdriven-logo-round-blackcurrant-flamingo.png" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 <title>Trusted Market Pulse — selfdriven.finance</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -52,7 +63,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 32px;height:64px;d
 nav.scrolled{background:rgba(245,242,237,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
 @media(prefers-color-scheme:dark){nav.scrolled{background:rgba(10,10,10,.85)}}
 .nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
-.nav-logo{width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;color:#fff}
+.nav-logo{width:32px;height:32px;border-radius:8px;overflow:hidden;flex-shrink:0}.nav-logo img{width:100%;height:100%;object-fit:cover}
 .nav-title{font-weight:700;font-size:15px;color:var(--text);letter-spacing:-.02em}
 .nav-title em{color:var(--accent);font-style:normal}
 .nav-links{display:flex;align-items:center;gap:8px}
@@ -236,7 +247,7 @@ nav.scrolled{background:rgba(245,242,237,.85);backdrop-filter:blur(16px);-webkit
 /* ── Footer ── */
 footer{padding:40px 32px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
 .footer-left{display:flex;align-items:center;gap:12px}
-.footer-logo{width:20px;height:20px;background:var(--accent);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:#fff}
+.footer-logo{width:20px;height:20px;border-radius:5px;overflow:hidden;flex-shrink:0}.footer-logo img{width:100%;height:100%;object-fit:cover}
 .footer-text{font-size:12px;color:var(--muted)}
 .footer-links{display:flex;gap:24px}
 .footer-links a{font-size:12px;color:var(--muted);text-decoration:none;transition:color .2s}
@@ -255,7 +266,7 @@ footer{padding:40px 32px;border-top:1px solid var(--border);display:flex;justify
 
 <nav id="mainNav">
   <a href="#" class="nav-brand">
-    <div class="nav-logo">sd</div>
+    <div class="nav-logo"><img src="data:image/png;base64,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" alt="selfdriven"></div>
     <span class="nav-title"><em>selfdriven</em>.finance</span>
   </a>
   <div class="nav-links">
@@ -325,6 +336,14 @@ footer{padding:40px 32px;border-top:1px solid var(--border);display:flex;justify
           <option value="mainnet">Mainnet</option>
           <option value="preprod">Pre-Production</option>
           <option value="preview">Preview</option>
+        </select>
+      </div>
+      <div class="config-row">
+        <span class="config-label">Update Rate</span>
+        <select class="config-input" id="updateRate" style="cursor:pointer">
+          <option value="30">Every 30 seconds</option>
+          <option value="60" selected>Every 1 minute</option>
+          <option value="300">Every 5 minutes</option>
         </select>
       </div>
       <div class="config-row" style="justify-content:flex-end;gap:8px">
@@ -442,7 +461,7 @@ footer{padding:40px 32px;border-top:1px solid var(--border);display:flex;justify
 
 <footer>
   <div class="footer-left">
-    <div class="footer-logo">sd</div>
+    <div class="footer-logo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAABAGlDQ1BpY2MAABiVY2BgPMEABCwGDAy5eSVFQe5OChGRUQrsDxgYgRAMEpOLCxhwA6Cqb9cgai/r4lGHC3CmpBYnA+kPQKxSBLQcaKQIkC2SDmFrgNhJELYNiF1eUlACZAeA2EUhQc5AdgqQrZGOxE5CYicXFIHU9wDZNrk5pckIdzPwpOaFBgNpDiCWYShmCGJwZ3AC+R+iJH8RA4PFVwYG5gkIsaSZDAzbWxkYJG4hxFQWMDDwtzAwbDuPEEOESUFiUSJYiAWImdLSGBg+LWdg4I1kYBC+wMDAFQ0LCBxuUwC7zZ0hHwjTGXIYUoEingx5DMkMekCWEYMBgyGDGQCm1j8/yRb+6wAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABGlBMVEXeWzHdWjHdWjDfWzHgXDHeWzDcWjHhXDDWVzG7RzHgXDCSMTGjOzHkXjDfWzDbWTGQMDF1ITKoPTHjXTDYWDGJLDJuHjJyIDKmPDHjXjDlXzCeODG6RzHlXjDUVTFkGDKNLjLaWDHmXzCkOzFfFTK9STFgFjOAKDLoYDCfODFjGDNeFTO4RjHPUzGDKTLaWDDpYTCaNTFbEzNiFzLJTzHGTTHSVDHZWDHbWTDrYjCVMzFSDjJXETPASjHvZDDBSzFVEDLNUTHiXTDlXjGMLjJCBjNKCjNUDzK/SjHuYzBDBzJABTLcWjDjXjGYNTFHCDJUEDJYEjPITzFcFDFKCzHRVDHQUzHVVjHaWTHVVjDaWTDYWDDdWzH///8XTaFaAAAAAWJLR0Rdnd8wAQAAAAd0SU1FB+oDCRQqHs/oXfkAAADISURBVBjTY2AgGTBiEWFkQhcGijGzoIuxsrFzcLIwMjIiVAPFuBi5eXjZGPmQVDNy8QsICgmz8YmwIqlkEBUTl5CUkpaRZUMolBOTV1BUUlZR5eWHGcvIxaGmzqShqaWtI8kFM5aRXVdP38DQSNvYxMDUjAuqks/cwtLK2sbI1s7ewdEJppTV2cXVzd3DU9XL24wdqtLH188/IFDVMig4JDgUpp2BMYwjPMKJkSMyKhoeBIwM7FxcfEAPsTAzI3kUBGBUDCkBDgAx0xQUlSMAUgAAAB50RVh0aWNjOmNvcHlyaWdodABHb29nbGUgSW5jLiAyMDE2rAszOAAAABR0RVh0aWNjOmRlc2NyaXB0aW9uAHNSR0K6kHMHAAAAAElFTkSuQmCC" alt="selfdriven"></div>
     <span class="footer-text">selfdriven Foundation — Buenos Aires Hackathon 2026</span>
   </div>
   <div class="footer-links">
@@ -587,7 +606,8 @@ function connectStream() {
     eventSource = new EventSource(url);
 
     eventSource.onopen = () => {
-      setStatus('connected', 'Streaming live from Pyth Hermes');
+      const rateLabel = document.getElementById('updateRate').selectedOptions[0].text;
+      setStatus('connected', `Streaming from Pyth Hermes (${rateLabel})`);
       document.getElementById('streamBadge').textContent = 'STREAMING';
       document.getElementById('streamBadge').className = 'card-badge badge-live';
       document.getElementById('configBadge').textContent = 'CONNECTED';
@@ -595,8 +615,15 @@ function connectStream() {
       addAuditEntry('SSE stream connected', 'ixn', 'Pyth Hermes');
     };
 
+    // Throttle SSE updates based on selected rate
+    let lastSSEUpdate = 0;
+    const getThrottleMs = () => (parseInt(document.getElementById('updateRate').value) || 60) * 1000;
+
     eventSource.onmessage = (event) => {
       try {
+        const now = Date.now();
+        if (now - lastSSEUpdate < getThrottleMs()) return; // throttle
+        lastSSEUpdate = now;
         const data = JSON.parse(event.data);
         if (data.parsed && Array.isArray(data.parsed)) {
           data.parsed.forEach(processPriceFeed);
@@ -621,7 +648,8 @@ function connectStream() {
 let restInterval = null;
 
 function startRestPolling() {
-  setStatus('connected', 'Polling Pyth Hermes (REST fallback)');
+  const rateLabel = document.getElementById('updateRate').selectedOptions[0].text;
+  setStatus('connected', `Polling Pyth Hermes — ${rateLabel}`);
   document.getElementById('streamBadge').textContent = 'POLLING';
   document.getElementById('streamBadge').className = 'card-badge badge-amber';
 
@@ -640,7 +668,8 @@ function startRestPolling() {
   }
 
   poll();
-  restInterval = setInterval(poll, 3000); // Poll every 3s (within Hermes rate limit)
+  const rateSec = parseInt(document.getElementById('updateRate').value) || 60;
+  restInterval = setInterval(poll, rateSec * 1000);
 }
 
 function stopStream() {
