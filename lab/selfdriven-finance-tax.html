@@ -1,0 +1,2085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>selfdriven Tax Prep — FY 2025-26</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ── selfdriven Design Tokens ── */
+  :root {
+    --bg: #f5f2ed;
+    --surface: #edeae3;
+    --surface2: #e5e1d8;
+    --border: #ddd8ce;
+    --text: #1a1410;
+    --muted: #6b5f52;
+    --muted2: #9e9085;
+    --accent: #c8442f;
+    --accent-dim: rgba(200, 68, 47, 0.10);
+    --accent-strong: rgba(200, 68, 47, 0.18);
+    --accent-hover: #a83625;
+    --warn: #b45309;
+    --warn-light: rgba(180, 83, 9, 0.12);
+    --danger: #c8442f;
+    --danger-light: rgba(200, 68, 47, 0.10);
+    --positive: #2e7d32;
+    --positive-light: rgba(46, 125, 50, 0.10);
+    --card-radius: 20px;
+    --shadow: 0 2px 16px rgba(0,0,0,0.07);
+    --shadow-lg: 0 10px 30px rgba(0,0,0,0.10);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0a0a0a;
+      --surface: #161616;
+      --surface2: #1e1e1e;
+      --border: #2a2a2a;
+      --text: #f0ede8;
+      --muted: #b0a89e;
+      --muted2: #7a7268;
+      --accent: #e85d4a;
+      --accent-dim: rgba(232, 93, 74, 0.12);
+      --accent-strong: rgba(232, 93, 74, 0.20);
+      --accent-hover: #f06b58;
+      --warn-light: rgba(180, 83, 9, 0.18);
+      --danger: #e85d4a;
+      --danger-light: rgba(232, 93, 74, 0.12);
+      --positive: #4caf50;
+      --positive-light: rgba(76, 175, 80, 0.12);
+      --shadow: 0 2px 16px rgba(0,0,0,0.4);
+      --shadow-lg: 0 10px 30px rgba(0,0,0,0.5);
+    }
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    font-weight: 400;
+  }
+
+  /* ── Layout ── */
+  .app { display: flex; min-height: 100vh; }
+
+  .sidebar {
+    width: 280px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 28px 0;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    overflow-y: auto;
+    z-index: 100;
+    transition: transform 0.3s ease;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .sidebar-header {
+    padding: 0 24px 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
+  }
+
+  .sidebar-header .brand-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .sidebar-header .brand-mark {
+    width: 32px; height: 32px;
+    background: var(--accent);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 800;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .sidebar-header h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+  }
+
+  .sidebar-header h1 span {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .sidebar-header .fy-badge {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 3px 10px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 20px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .nav-section {
+    padding: 12px 16px 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 24px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+    transition: all 0.15s;
+    border-left: 3px solid transparent;
+    position: relative;
+  }
+
+  .nav-item:hover { background: var(--accent-dim); color: var(--text); }
+  .nav-item.active {
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-left-color: var(--accent);
+    font-weight: 600;
+  }
+
+  .nav-item .badge {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 10px;
+    background: var(--accent-dim);
+    color: var(--accent);
+  }
+
+  .nav-item .icon { font-size: 18px; width: 22px; text-align: center; }
+
+  .main {
+    flex: 1;
+    margin-left: 280px;
+    padding: 32px 40px;
+    max-width: 960px;
+  }
+
+  /* ── Mobile ── */
+  .mobile-header {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+    z-index: 200;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .hamburger {
+    background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text);
+    padding: 4px;
+  }
+
+  .overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 90;
+  }
+
+  @media (max-width: 800px) {
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.open { transform: translateX(0); }
+    .overlay.open { display: block; }
+    .mobile-header { display: flex; }
+    .main { margin-left: 0; padding: 80px 20px 32px; }
+  }
+
+  /* ── Page Header ── */
+  .page-header {
+    margin-bottom: 28px;
+  }
+
+  .page-header h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    margin-bottom: 4px;
+    letter-spacing: -0.04em;
+  }
+
+  .page-header p {
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: none;
+    border-top: 3px solid var(--accent);
+    transition: box-shadow 0.2s ease;
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow);
+  }
+
+  .card-title {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-title .icon { font-size: 18px; }
+
+  /* ── Summary Strip ── */
+  .summary-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+
+  .summary-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: 18px 20px;
+    border-top: 3px solid var(--accent);
+    transition: box-shadow 0.2s ease;
+  }
+
+  .summary-card:hover {
+    box-shadow: var(--shadow);
+  }
+
+  .summary-card .label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .summary-card .value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .summary-card .value.positive { color: var(--positive); }
+  .summary-card .value.negative { color: var(--danger); }
+
+  /* ── Form Elements ── */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+  }
+
+  .form-group { margin-bottom: 0; }
+  .form-group.full { grid-column: 1 / -1; }
+
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .form-group .hint {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    background: var(--bg);
+    color: var(--text);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-dim);
+  }
+
+  input[type="number"] {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+  }
+
+  .currency-input {
+    position: relative;
+  }
+
+  .currency-input::before {
+    content: '$';
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    pointer-events: none;
+  }
+
+  .currency-input input {
+    padding-left: 28px;
+  }
+
+  /* ── Buttons ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    border-radius: 999px;
+  }
+
+  .btn-primary:hover { background: var(--accent-hover); }
+
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  .btn-sm { padding: 6px 16px; font-size: 12px; }
+
+  .btn-danger { background: var(--danger); color: white; border-radius: 999px; }
+  .btn-danger:hover { opacity: 0.9; }
+
+  /* ── Table ── */
+  .item-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+  }
+
+  .item-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .item-table td {
+    padding: 10px 12px;
+    font-size: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .item-table tr:last-child td { border-bottom: none; }
+
+  .item-table .amount {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    text-align: right;
+  }
+
+  .item-table th:last-child { text-align: right; }
+
+  .remove-btn {
+    background: none; border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 2px 6px;
+    border-radius: 6px;
+    transition: all 0.15s;
+  }
+
+  .remove-btn:hover { color: var(--danger); background: var(--danger-light); }
+
+  /* ── Add Row ── */
+  .add-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    align-items: end;
+  }
+
+  .add-row .form-group { flex: 1; margin-bottom: 0; }
+
+  /* ── Progress ── */
+  .progress-bar {
+    height: 6px;
+    background: var(--surface2);
+    border-radius: 3px;
+    margin: 20px 24px 0;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+    transition: width 0.4s ease;
+  }
+
+  .progress-label {
+    padding: 8px 24px 0;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* ── Tax Estimate ── */
+  .tax-breakdown {
+    margin-top: 16px;
+  }
+
+  .tax-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+
+  .tax-row:last-child { border-bottom: none; }
+
+  .tax-row .label { color: var(--muted); }
+  .tax-row .value {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+  }
+
+  .tax-row.total {
+    font-weight: 700;
+    font-size: 16px;
+    padding-top: 14px;
+    border-top: 2px solid var(--border);
+    border-bottom: none;
+  }
+
+  .tax-row.total .label { color: var(--text); }
+
+  .tax-row.refund .value { color: var(--positive); }
+  .tax-row.owe .value { color: var(--danger); }
+
+  /* ── Bracket Visual ── */
+  .bracket-bars { margin-top: 16px; }
+
+  .bracket-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 12px;
+  }
+
+  .bracket-bar .range {
+    width: 140px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .bracket-bar .bar-track {
+    flex: 1;
+    height: 14px;
+    background: var(--surface2);
+    border-radius: 7px;
+    overflow: hidden;
+  }
+
+  .bracket-bar .bar-fill {
+    height: 100%;
+    border-radius: 7px;
+    transition: width 0.5s ease;
+  }
+
+  .bracket-bar .bar-fill.b0 { background: #f5c6be; }
+  .bracket-bar .bar-fill.b1 { background: #e89a8e; }
+  .bracket-bar .bar-fill.b2 { background: #e07260; }
+  .bracket-bar .bar-fill.b3 { background: #c8442f; }
+  .bracket-bar .bar-fill.b4 { background: #9a2e1f; }
+
+  .bracket-bar .tax-amt {
+    width: 80px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text);
+    flex-shrink: 0;
+  }
+
+  /* ── Alert ── */
+  .alert {
+    padding: 14px 18px;
+    border-radius: var(--card-radius);
+    font-size: 13px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .alert-info { background: var(--accent-dim); color: var(--text); border: 1px solid var(--accent-strong); }
+  .alert-warn { background: var(--warn-light); color: var(--text); border: 1px solid rgba(180,83,9,0.2); }
+
+  .alert .icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── Checklist ── */
+  .checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+
+  .checklist-item:last-child { border-bottom: none; }
+
+  .check-circle {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 12px;
+    transition: all 0.15s;
+  }
+
+  .checklist-item.done .check-circle {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+
+  .checklist-item.done .check-text {
+    text-decoration: line-through;
+    color: var(--muted);
+  }
+
+  .check-text { font-size: 14px; }
+
+  /* ── Tabs ── */
+  .tab-row {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tab-btn {
+    padding: 8px 16px;
+    background: none;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    margin-bottom: -1px;
+  }
+
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  .tab-btn:hover { color: var(--text); }
+
+  /* ── Export ── */
+  .export-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  /* ── Tooltip ── */
+  .info-tip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--surface2);
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 700;
+    cursor: help;
+    position: relative;
+  }
+
+  .info-tip:hover::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text);
+    color: var(--bg);
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 400;
+    white-space: nowrap;
+    max-width: 260px;
+    white-space: normal;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up {
+    animation: fadeUp 0.4s ease both;
+  }
+
+  /* ── Print ── */
+  @media print {
+    .sidebar, .mobile-header, .overlay { display: none !important; }
+    .main { margin-left: 0; padding: 20px; max-width: 100%; }
+    .btn, .add-row, .remove-btn { display: none !important; }
+  }
+
+  /* ── Bank Import ── */
+  .drop-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--card-radius);
+    padding: 40px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--bg);
+  }
+
+  .drop-zone:hover, .drop-zone.dragover {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  .drop-zone .drop-icon { font-size: 36px; margin-bottom: 10px; }
+  .drop-zone .drop-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .drop-zone .drop-sub { font-size: 13px; color: var(--muted); }
+
+  .txn-row {
+    display: grid;
+    grid-template-columns: 90px 1fr 160px 100px 40px;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .txn-row.header {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    border-bottom: 2px solid var(--border);
+  }
+
+  .txn-row .txn-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .txn-row .txn-desc {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .txn-row .txn-amount {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    text-align: right;
+  }
+
+  .txn-row .txn-amount.income { color: var(--positive); }
+  .txn-row .txn-amount.expense { color: var(--danger); }
+
+  .txn-row select {
+    padding: 5px 8px;
+    font-size: 12px;
+    border-radius: 8px;
+  }
+
+  .txn-check {
+    width: 18px; height: 18px;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+
+  .import-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  .import-stat {
+    background: var(--surface);
+    border-radius: var(--card-radius);
+    padding: 14px 16px;
+    text-align: center;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+  }
+
+  .import-stat .stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .import-stat .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 2px;
+  }
+
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  .filter-chip {
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .filter-chip.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .filter-chip:hover:not(.active) {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  @media (max-width: 700px) {
+    .txn-row { grid-template-columns: 70px 1fr 80px 40px; }
+    .txn-row .txn-cat-col { display: none; }
+    .txn-row.header .txn-cat-col { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+  <!-- Mobile Header -->
+  <div class="mobile-header">
+    <button class="hamburger" onclick="toggleSidebar()">☰</button>
+    <span style="font-family:'Poppins',sans-serif;font-size:16px;font-weight:800;letter-spacing:-0.04em;"><span style="color:var(--accent)">selfdriven</span> Tax</span>
+  </div>
+  <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="brand-row">
+        <div class="brand-mark">sd</div>
+        <h1>selfdriven <span>Tax</span></h1>
+      </div>
+      <span class="fy-badge">FY 2025–26</span>
+    </div>
+
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-label" id="progressLabel">0 / 7 sections</div>
+
+    <div class="nav-section">Income</div>
+    <div class="nav-item active" onclick="navigate('overview')">
+      <span class="icon">📊</span> Overview
+    </div>
+    <div class="nav-item" onclick="navigate('salary')">
+      <span class="icon">💼</span> Salary & Wages
+    </div>
+    <div class="nav-item" onclick="navigate('other-income')">
+      <span class="icon">📈</span> Other Income
+    </div>
+
+    <div class="nav-section">Deductions</div>
+    <div class="nav-item" onclick="navigate('work')">
+      <span class="icon">🏠</span> Work Deductions
+    </div>
+    <div class="nav-item" onclick="navigate('investment')">
+      <span class="icon">📉</span> Investment Deductions
+    </div>
+
+    <div class="nav-section">Offsets & Results</div>
+    <div class="nav-item" onclick="navigate('offsets')">
+      <span class="icon">🎯</span> Tax Offsets
+    </div>
+    <div class="nav-item" onclick="navigate('estimate')">
+      <span class="icon">🧮</span> Tax Estimate
+    </div>
+
+    <div class="nav-section">Tools</div>
+    <div class="nav-item" onclick="navigate('import')">
+      <span class="icon">🏦</span> Bank Import
+    </div>
+    <div class="nav-item" onclick="navigate('checklist')">
+      <span class="icon">✅</span> Lodgement Checklist
+    </div>
+    <div class="nav-item" onclick="navigate('export')">
+      <span class="icon">💾</span> Save / Export
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main" id="mainContent"></main>
+</div>
+
+<script>
+// ── State ──
+let state = {
+  currentPage: 'overview',
+  salary: { gross: 0, taxWithheld: 0, reportableSuper: 0, reportableFBT: 0 },
+  otherIncome: [],
+  workDeductions: [],
+  investmentDeductions: [],
+  offsets: {
+    lito: true,
+    lamito: false,
+    spouseOffset: false,
+    privateHealth: false,
+    zoneOffset: false,
+    medicareLevySurcharge: false,
+    medicareLevy: true,
+    helpDebt: false,
+    helpBalance: 0,
+  },
+  checklist: {
+    payg: false, bank: false, divs: false, rental: false,
+    receipts: false, logbook: false, wfh: false, health: false,
+    super: false, prior: false, tfn: false
+  },
+  bankTransactions: [],
+  bankImportSummary: null
+};
+
+// Load from localStorage
+try {
+  const saved = JSON.parse(localStorage.getItem('ausTaxPrep2026') || '{}');
+  if (saved.salary) state = { ...state, ...saved };
+} catch(e) {}
+
+function save() {
+  localStorage.setItem('ausTaxPrep2026', JSON.stringify(state));
+  updateProgress();
+}
+
+// ── Tax Calculation (FY 2025-26 brackets) ──
+const BRACKETS = [
+  { min: 0, max: 18200, rate: 0, base: 0 },
+  { min: 18201, max: 45000, rate: 0.16, base: 0 },
+  { min: 45001, max: 135000, rate: 0.30, base: 4288 },
+  { min: 135001, max: 190000, rate: 0.37, base: 31288 },
+  { min: 190001, max: Infinity, rate: 0.45, base: 51638 },
+];
+
+function calcTax(taxable) {
+  if (taxable <= 0) return 0;
+  for (let i = BRACKETS.length - 1; i >= 0; i--) {
+    if (taxable >= BRACKETS[i].min) {
+      return BRACKETS[i].base + (taxable - BRACKETS[i].min + (i > 0 ? 1 : 0)) * BRACKETS[i].rate;
+    }
+  }
+  return 0;
+}
+
+function calcLITO(taxable) {
+  if (taxable <= 66667) return 700;
+  if (taxable <= 66667) return 700;
+  if (taxable <= 100000) return 700 - (taxable - 66667) * 0.015;
+  return Math.max(0, 200 - (taxable - 100000) * 0.01);
+}
+
+function calcMedicareLevy(taxable) {
+  if (taxable <= 26000) return 0;
+  if (taxable <= 32500) return (taxable - 26000) * 0.10;
+  return taxable * 0.02;
+}
+
+function calcHELP(taxable) {
+  if (!state.offsets.helpDebt) return 0;
+  if (taxable < 54435) return 0;
+  if (taxable <= 62850) return taxable * 0.01;
+  if (taxable <= 66620) return taxable * 0.02;
+  if (taxable <= 70618) return taxable * 0.025;
+  if (taxable <= 74855) return taxable * 0.03;
+  if (taxable <= 79346) return taxable * 0.035;
+  if (taxable <= 84107) return taxable * 0.04;
+  if (taxable <= 89154) return taxable * 0.045;
+  if (taxable <= 94503) return taxable * 0.05;
+  if (taxable <= 100174) return taxable * 0.055;
+  if (taxable <= 106185) return taxable * 0.06;
+  if (taxable <= 112556) return taxable * 0.065;
+  if (taxable <= 119309) return taxable * 0.07;
+  if (taxable <= 126467) return taxable * 0.075;
+  if (taxable <= 134056) return taxable * 0.08;
+  if (taxable <= 142100) return taxable * 0.085;
+  if (taxable <= 150626) return taxable * 0.09;
+  if (taxable <= 159663) return taxable * 0.095;
+  return taxable * 0.10;
+}
+
+function getTotals() {
+  const grossIncome = state.salary.gross + state.otherIncome.reduce((s, i) => s + (i.amount || 0), 0);
+  const totalDeductions = state.workDeductions.reduce((s, i) => s + (i.amount || 0), 0) +
+    state.investmentDeductions.reduce((s, i) => s + (i.amount || 0), 0);
+  const taxableIncome = Math.max(0, grossIncome - totalDeductions);
+  const baseTax = calcTax(taxableIncome);
+  const lito = state.offsets.lito ? calcLITO(taxableIncome) : 0;
+  const medicare = state.offsets.medicareLevy ? calcMedicareLevy(taxableIncome) : 0;
+  const help = calcHELP(taxableIncome);
+  const totalTax = Math.max(0, baseTax - lito) + medicare + help;
+  const withheld = state.salary.taxWithheld;
+  const refund = withheld - totalTax;
+
+  return { grossIncome, totalDeductions, taxableIncome, baseTax, lito, medicare, help, totalTax, withheld, refund };
+}
+
+function fmt(n) {
+  return '$' + Math.abs(n).toLocaleString('en-AU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+// ── Navigation ──
+function navigate(page) {
+  state.currentPage = page;
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  const items = document.querySelectorAll('.nav-item');
+  const pages = ['overview','salary','other-income','work','investment','offsets','estimate','import','checklist','export'];
+  const idx = pages.indexOf(page);
+  if (idx >= 0 && items[idx]) items[idx].classList.add('active');
+  render();
+  if (window.innerWidth <= 800) toggleSidebar();
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+
+function updateProgress() {
+  let done = 0;
+  if (state.salary.gross > 0) done++;
+  if (state.salary.taxWithheld > 0) done++;
+  if (state.otherIncome.length > 0) done++;
+  if (state.workDeductions.length > 0) done++;
+  if (state.investmentDeductions.length > 0) done++;
+  const checkDone = Object.values(state.checklist).filter(Boolean).length;
+  if (checkDone >= 5) done++;
+  if (checkDone === Object.keys(state.checklist).length) done++;
+  const pct = Math.round((done / 7) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = `${done} / 7 sections`;
+}
+
+// ── Render ──
+function render() {
+  const main = document.getElementById('mainContent');
+  const t = getTotals();
+
+  switch (state.currentPage) {
+    case 'overview': main.innerHTML = renderOverview(t); break;
+    case 'salary': main.innerHTML = renderSalary(); break;
+    case 'other-income': main.innerHTML = renderOtherIncome(); break;
+    case 'work': main.innerHTML = renderWorkDeductions(); break;
+    case 'investment': main.innerHTML = renderInvestmentDeductions(); break;
+    case 'offsets': main.innerHTML = renderOffsets(); break;
+    case 'estimate': main.innerHTML = renderEstimate(t); break;
+    case 'import': main.innerHTML = renderBankImport(); break;
+    case 'checklist': main.innerHTML = renderChecklist(); break;
+    case 'export': main.innerHTML = renderExport(t); break;
+  }
+  updateProgress();
+}
+
+// ── Pages ──
+function renderOverview(t) {
+  const refundClass = t.refund >= 0 ? 'positive' : 'negative';
+  return `
+    <div class="page-header fade-up">
+      <h2>Overview</h2>
+      <p>Your Australian tax return at a glance — FY 2025–26 (1 Jul 2025 – 30 Jun 2026)</p>
+    </div>
+
+    <div class="summary-strip fade-up" style="animation-delay:0.05s">
+      <div class="summary-card">
+        <div class="label">Gross Income</div>
+        <div class="value">${fmt(t.grossIncome)}</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Total Deductions</div>
+        <div class="value">${fmt(t.totalDeductions)}</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Taxable Income</div>
+        <div class="value">${fmt(t.taxableIncome)}</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">${t.refund >= 0 ? 'Estimated Refund' : 'Tax Owing'}</div>
+        <div class="value ${refundClass}">${t.refund >= 0 ? '+' : '-'}${fmt(t.refund)}</div>
+      </div>
+    </div>
+
+    <div class="alert alert-info fade-up" style="animation-delay:0.1s">
+      <span class="icon">ℹ️</span>
+      <div>
+        <strong>FY 2025-26 rates applied.</strong> Stage 3 tax cuts are in effect. The 19% bracket is now 16%, and the 32.5% bracket is 30% up to $135,000. Use the sidebar to enter your income, deductions, and offsets.
+      </div>
+    </div>
+
+    <div class="card fade-up" style="animation-delay:0.15s">
+      <div class="card-title"><span class="icon">🗓️</span> Key Dates</div>
+      <table class="item-table">
+        <tr><td>FY end</td><td class="amount">30 Jun 2026</td></tr>
+        <tr><td>Tax return opens</td><td class="amount">1 Jul 2026</td></tr>
+        <tr><td>Self-lodgement deadline</td><td class="amount">31 Oct 2026</td></tr>
+        <tr><td>Tax agent deadline (registered by 31 Oct)</td><td class="amount">~15 May 2027</td></tr>
+      </table>
+    </div>
+
+    <div class="card fade-up" style="animation-delay:0.2s">
+      <div class="card-title"><span class="icon">⚡</span> Quick Start</div>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:12px;">Work through these sections to build your return:</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <button class="btn btn-outline btn-sm" onclick="navigate('salary')">💼 Enter salary</button>
+        <button class="btn btn-outline btn-sm" onclick="navigate('other-income')">📈 Other income</button>
+        <button class="btn btn-outline btn-sm" onclick="navigate('work')">🏠 Work deductions</button>
+        <button class="btn btn-outline btn-sm" onclick="navigate('investment')">📉 Investment deductions</button>
+        <button class="btn btn-outline btn-sm" onclick="navigate('estimate')">🧮 See estimate</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderSalary() {
+  return `
+    <div class="page-header fade-up">
+      <h2>Salary & Wages</h2>
+      <p>Enter details from your PAYG Payment Summary or Income Statement (available via myGov)</p>
+    </div>
+
+    <div class="card fade-up" style="animation-delay:0.05s">
+      <div class="card-title"><span class="icon">💼</span> Employment Income</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Gross Salary / Wages <span class="info-tip" data-tip="Total salary before tax, from your PAYG summary or myGov income statement">?</span></label>
+          <div class="currency-input">
+            <input type="number" step="0.01" value="${state.salary.gross || ''}" placeholder="0.00"
+              onchange="state.salary.gross=parseFloat(this.value)||0; save(); render();">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Tax Withheld <span class="info-tip" data-tip="Total PAYG tax already withheld by your employer">?</span></label>
+          <div class="currency-input">
+            <input type="number" step="0.01" value="${state.salary.taxWithheld || ''}" placeholder="0.00"
+              onchange="state.salary.taxWithheld=parseFloat(this.value)||0; save(); render();">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Reportable Super <span class="info-tip" data-tip="Employer super contributions above the SG rate, shown on your PAYG summary">?</span></label>
+          <div class="currency-input">
+            <input type="number" step="0.01" value="${state.salary.reportableSuper || ''}" placeholder="0.00"
+              onchange="state.salary.reportableSuper=parseFloat(this.value)||0; save();">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Reportable FBT <span class="info-tip" data-tip="Fringe Benefits Tax amount from your employer, if applicable">?</span></label>
+          <div class="currency-input">
+            <input type="number" step="0.01" value="${state.salary.reportableFBT || ''}" placeholder="0.00"
+              onchange="state.salary.reportableFBT=parseFloat(this.value)||0; save();">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-info fade-up" style="animation-delay:0.1s">
+      <span class="icon">💡</span>
+      <div>Your employer should pre-fill this data in myGov by mid-August. Check it matches your payslips before lodging.</div>
+    </div>
+  `;
+}
+
+function renderOtherIncome() {
+  const rows = state.otherIncome.map((item, i) => `
+    <tr>
+      <td>${item.type}</td>
+      <td>${item.description}</td>
+      <td class="amount">${fmt(item.amount)}</td>
+      <td style="width:40px"><button class="remove-btn" onclick="state.otherIncome.splice(${i},1);save();render();">✕</button></td>
+    </tr>
+  `).join('');
+
+  const total = state.otherIncome.reduce((s, i) => s + (i.amount || 0), 0);
+
+  return `
+    <div class="page-header fade-up">
+      <h2>Other Income</h2>
+      <p>Interest, dividends, rental, capital gains, freelance income, and more</p>
+    </div>
+
+    <div class="card fade-up" style="animation-delay:0.05s">
+      <div class="card-title"><span class="icon">📈</span> Income Items</div>
+      ${state.otherIncome.length > 0 ? `
+        <table class="item-table">
+          <thead><tr><th>Type</th><th>Description</th><th style="text-align:right">Amount</th><th></th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+        <div style="text-align:right;padding-top:10px;font-weight:600;font-family:'JetBrains Mono',monospace;font-size:14px;">
+          Total: ${fmt(total)}
+        </div>
+      ` : '<p style="color:var(--muted);font-size:14px;">No other income added yet.</p>'}
+
+      <div class="add-row">
+        <div class="form-group" style="max-width:160px">
+          <label>Type</label>
+          <select id="oiType">
+            <option>Bank Interest</option>
+            <option>Dividends</option>
+            <option>Rental Income</option>
+            <option>Capital Gains</option>
+            <option>Freelance/ABN</option>
+            <option>Crypto</option>
+            <option>Foreign Income</option>
+            <option>Government Payments</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <input type="text" id="oiDesc" placeholder="e.g. ING Savings Account">
+        </div>
+        <div class="form-group" style="max-width:140px">
+          <label>Amount</label>
+          <div class="currency-input">
+            <input type="number" id="oiAmt" step="0.01" placeholder="0.00">
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm" style="margin-bottom:0;height:42px;" onclick="addOtherIncome()">+ Add</button>
+      </div>
+    </div>
+
+    <div class="alert alert-info fade-up" style="animation-delay:0.1s">
+      <span class="icon">💡</span>
+      <div><strong>Dividends:</strong> Include the franking credit as part of the amount. E.g. if you received $700 cash + $300 franking credit, enter $1,000. The franking credit will reduce your tax payable.</div>
+    </div>
+  `;
+}
+
+function addOtherIncome() {
+  const type = document.getElementById('oiType').value;
+  const desc = document.getElementById('oiDesc').value;
+  const amt = parseFloat(document.getElementById('oiAmt').value) || 0;
+  if (amt > 0) {
+    state.otherIncome.push({ type, description: desc || type, amount: amt });
+    save(); render();
+  }
+}
+
+function renderDeductionSection(title, subtitle, icon, list, listKey, categories) {
+  const rows = list.map((item, i) => `
+    <tr>
+      <td>${item.category}</td>
+      <td>${item.description}</td>
+      <td class="amount">${fmt(item.amount)}</td>
+      <td style="width:40px"><button class="remove-btn" onclick="state.${listKey}.splice(${i},1);save();render();">✕</button></td>
+    </tr>
+  `).join('');
+
+  const total = list.reduce((s, i) => s + (i.amount || 0), 0);
+
+  const options = categories.map(c => `<option>${c}</option>`).join('');
+
+  return `
+    <div class="page-header fade-up">
+      <h2>${title}</h2>
+      <p>${subtitle}</p>
+    </div>
+
+    <div class="card fade-up" style="animation-delay:0.05s">
+      <div class="card-title"><span class="icon">${icon}</span> Deduction Items</div>
+      ${list.length > 0 ? `
+        <table class="item-table">
+          <thead><tr><th>Category</th><th>Description</th><th style="text-align:right">Amount</th><th></th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+        <div style="text-align:right;padding-top:10px;font-weight:600;font-family:'JetBrains Mono',monospace;font-size:14px;">
+          Total: ${fmt(total)}
+        </div>
+      ` : '<p style="color:var(--muted);font-size:14px;">No deductions added yet.</p>'}
+
+      <div class="add-row">
+        <div class="form-group" style="max-width:180px">
+          <label>Category</label>
+          <select id="${listKey}Cat">${options}</select>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <input type="text" id="${listKey}Desc" placeholder="Brief description">
+        </div>
+        <div class="form-group" style="max-width:140px">
+          <label>Amount</label>
+          <div class="currency-input">
+            <input type="number" id="${listKey}Amt" step="0.01" placeholder="0.00">
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm" style="margin-bottom:0;height:42px;" onclick="addDeduction('${listKey}')">+ Add</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderWorkDeductions() {
+  return renderDeductionSection(
+    'Work Deductions', 'Expenses directly related to earning your salary',
+    '🏠', state.workDeductions, 'workDeductions',
+    ['Work from Home', 'Vehicle / Travel', 'Clothing / Laundry', 'Self-Education', 'Tools & Equipment',
+     'Phone & Internet', 'Union Fees', 'Donations (DGR)', 'Tax Agent Fee', 'Income Protection', 'Other']
+  ) + `
+    <div class="alert alert-info fade-up" style="animation-delay:0.1s">
+      <span class="icon">💡</span>
+      <div><strong>WFH Fixed Rate:</strong> 67c per hour for FY25-26. Covers energy, internet, phone, stationery. You'll need a record of hours worked from home (e.g. timesheet, diary). Claim separately for office furniture/equipment depreciation.</div>
+    </div>
+  `;
+}
+
+function renderInvestmentDeductions() {
+  return renderDeductionSection(
+    'Investment Deductions', 'Expenses related to earning investment income',
+    '📉', state.investmentDeductions, 'investmentDeductions',
+    ['Interest (Loan)', 'Property Depreciation', 'Property Repairs', 'Property Management',
+     'Property Insurance', 'Property Rates/Strata', 'Share Trading Costs', 'Accounting Fees', 'Other']
+  );
+}
+
+function addDeduction(key) {
+  const cat = document.getElementById(key + 'Cat').value;
+  const desc = document.getElementById(key + 'Desc').value;
+  const amt = parseFloat(document.getElementById(key + 'Amt').value) || 0;
+  if (amt > 0) {
+    state[key].push({ category: cat, description: desc || cat, amount: amt });
+    save(); render();
+  }
+}
+
+function renderOffsets() {
+  function toggle(key) { return `onclick="state.offsets.${key}=!state.offsets.${key};save();render();"`; }
+  function sw(key, label, tip) {
+    return `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);">
+        <div>
+          <span style="font-size:14px;font-weight:500;">${label}</span>
+          ${tip ? `<span class="info-tip" data-tip="${tip}">?</span>` : ''}
+        </div>
+        <label style="position:relative;display:inline-block;width:44px;height:24px;cursor:pointer;" ${toggle(key)}>
+          <div style="width:44px;height:24px;border-radius:12px;background:${state.offsets[key] ? 'var(--accent)' : 'var(--border)'};transition:all 0.2s;position:relative;">
+            <div style="width:18px;height:18px;border-radius:50%;background:white;position:absolute;top:3px;left:${state.offsets[key] ? '23px' : '3px'};transition:all 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2);"></div>
+          </div>
+        </label>
+      </div>`;
+  }
+
+  return `
+    <div class="page-header fade-up">
+      <h2>Tax Offsets & Levies</h2>
+      <p>Configure applicable offsets and additional levies</p>
+    </div>
+
+    <div class="card fade-up" style="animation-delay:0.05s">
+      <div class="card-title"><span class="icon">🎯</span> Automatic Offsets</div>
+      ${sw('lito', 'Low Income Tax Offset (LITO)', 'Up to $700 for taxable income under $66,667. Phases out above.')}
+    </div>
+
+    <div class="card fade-up" style="animation-delay:0.1s">
+      <div class="card-title"><span class="icon">🏥</span> Medicare</div>
+      ${sw('medicareLevy', 'Medicare Levy (2%)', 'Standard 2% levy on taxable income. Reduced if income below $26,000.')}
+      ${sw('medicareLevySurcharge', 'Medicare Levy Surcharge', 'Extra 1-1.5% if income > $93,000 and no private hospital cover.')}
+    </div>
+
+    <div class="card fade-up" style="animation-delay:0.15s">
+      <div class="card-title"><span class="icon">🎓</span> Study & Training Loan</div>
+      ${sw('helpDebt', 'HELP / HECS-HELP Debt', 'Compulsory repayments start at taxable income of $54,435.')}
+      ${state.offsets.helpDebt ? `
+        <div class="form-group" style="margin-top:12px;">
+          <label>Outstanding HELP Balance</label>
+          <div class="hint">For reference only — repayment rate is based on income, not balance</div>
+          <div class="currency-input">
+            <input type="number" step="0.01" value="${state.offsets.helpBalance || ''}" placeholder="0.00"
+              onchange="state.offsets.helpBalance=parseFloat(this.value)||0;save();">
+          </div>
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+function renderEstimate(t) {
+  // Bracket visualization
+  const bracketData = [];
+  let remaining = t.taxableIncome;
+  for (let i = 0; i < BRACKETS.length && remaining > 0; i++) {
+    const b = BRACKETS[i];
+    const width = b.max === Infinity ? remaining : Math.min(b.max - b.min + 1, remaining);
+    const taxInBracket = width * b.rate;
+    bracketData.push({
+      range: b.max === Infinity ? `$${(b.min).toLocaleString()}+` : `$${b.min.toLocaleString()} – $${b.max.toLocaleString()}`,
+      rate: (b.rate * 100) + '%',
+      pct: Math.min(100, (width / Math.max(t.taxableIncome, 1)) * 100),
+      tax: taxInBracket,
+      cls: 'b' + i
+    });
+    remaining -= width;
+  }
+
+  const bracketBars = bracketData.map(b => `
+    <div class="bracket-bar">
+      <div class="range">${b.range}</div>
+      <div class="bar-track">
+        <div class="bar-fill ${b.cls}" style="width:${b.pct}%"></div>
+      </div>
+      <div class="tax-amt">${fmt(b.tax)}</div>
+    </div>
+  `).join('');
+
+  const refundLabel = t.refund >= 0 ? 'Estimated Refund' : 'Tax Owing';
+  const refundClass = t.refund >= 0 ? 'refund' : 'owe';
+
+  const effectiveRate = t.taxableIncome > 0 ? ((t.totalTax / t.taxableIncome) * 100).toFixed(1) : '0.0';
+
+  return `
+    <div class="page-header fade-up">
+      <h2>Tax Estimate</h2>
+      <p>Estimated FY 2025-26 tax based on your inputs — not a substitute for professional advice</p>
+    </div>
+
+    <div class="summary-strip fade-up" style="animation-delay:0.05s">
+      <div class="summary-card">
+        <div class="label">Taxable Income</div>
+        <div class="value">${fmt(t.taxableIncome)}</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Total Tax</div>
+        <div class="value">${fmt(t.totalTax)}</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Effective Rate</div>
+        <div class="value">${effectiveRate}%</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">${refundLabel}</div>
+        <div class="value ${t.refund >= 0 ? 'positive' : 'negative'}">${t.refund >= 0 ? '+' : '-'}${fmt(t.refund)}</div>
+      </div>
+    </div>
+
+    <div class="card fade-up" style="animation-delay:0.1s">
+      <div class="card-title"><span class="icon">🧮</span> Tax Breakdown</div>
+      <div class="tax-breakdown">
+        <div class="tax-row"><span class="label">Gross Income</span><span class="value">${fmt(t.grossIncome)}</span></div>
+        <div class="tax-row"><span class="label">Less: Deductions</span><span class="value">-${fmt(t.totalDeductions)}</span></div>
+        <div class="tax-row" style="font-weight:600"><span class="label">Taxable Income</span><span class="value">${fmt(t.taxableIncome)}</span></div>
+        <div class="tax-row"><span class="label">Income Tax on Taxable Income</span><span class="value">${fmt(t.baseTax)}</span></div>
+        ${t.lito > 0 ? `<div class="tax-row"><span class="label">Less: LITO</span><span class="value">-${fmt(t.lito)}</span></div>` : ''}
+        ${t.medicare > 0 ? `<div class="tax-row"><span class="label">Plus: Medicare Levy</span><span class="value">${fmt(t.medicare)}</span></div>` : ''}
+        ${t.help > 0 ? `<div class="tax-row"><span class="label">Plus: HELP Repayment</span><span class="value">${fmt(t.help)}</span></div>` : ''}
+        <div class="tax-row total"><span class="label">Total Tax Payable</span><span class="value">${fmt(t.totalTax)}</span></div>
+        <div class="tax-row"><span class="label">Less: Tax Already Withheld (PAYG)</span><span class="value">${fmt(t.withheld)}</span></div>
+        <div class="tax-row total ${refundClass}"><span class="label">${refundLabel}</span><span class="value">${t.refund >= 0 ? '+' : '-'}${fmt(t.refund)}</span></div>
+      </div>
+    </div>
+
+    <div class="card fade-up" style="animation-delay:0.15s">
+      <div class="card-title"><span class="icon">📊</span> Tax Bracket Breakdown</div>
+      <div class="bracket-bars">${bracketBars.length > 0 ? bracketBars : '<p style="color:var(--muted);font-size:14px;">Enter income to see bracket breakdown</p>'}</div>
+    </div>
+
+    <div class="alert alert-warn fade-up" style="animation-delay:0.2s">
+      <span class="icon">⚠️</span>
+      <div>This is an <strong>estimate only</strong>. It does not account for all offsets, surcharges, or special circumstances. Consult a registered tax agent or use the official ATO tax calculator for an accurate assessment.</div>
+    </div>
+  `;
+}
+
+function renderChecklist() {
+  const items = [
+    { key: 'payg', text: 'PAYG Payment Summary / Income Statement (from myGov or employer)' },
+    { key: 'bank', text: 'Bank interest statements (all accounts)' },
+    { key: 'divs', text: 'Dividend statements with franking credits' },
+    { key: 'rental', text: 'Rental property income & expense records' },
+    { key: 'receipts', text: 'Receipts for work-related deductions' },
+    { key: 'logbook', text: 'Vehicle logbook (if claiming car expenses)' },
+    { key: 'wfh', text: 'Work-from-home hours log / diary' },
+    { key: 'health', text: 'Private health insurance statement' },
+    { key: 'super', text: 'Superannuation contribution records' },
+    { key: 'prior', text: 'Prior year tax return (for reference)' },
+    { key: 'tfn', text: 'TFN and myGov login ready' },
+  ];
+
+  const done = Object.values(state.checklist).filter(Boolean).length;
+
+  const listHtml = items.map(item => `
+    <div class="checklist-item ${state.checklist[item.key] ? 'done' : ''}"
+         onclick="state.checklist['${item.key}']=!state.checklist['${item.key}'];save();render();">
+      <div class="check-circle">${state.checklist[item.key] ? '✓' : ''}</div>
+      <span class="check-text">${item.text}</span>
+    </div>
+  `).join('');
+
+  return `
+    <div class="page-header fade-up">
+      <h2>Lodgement Checklist</h2>
+      <p>Make sure you have everything before lodging your return</p>
+    </div>
+
+    <div class="card fade-up" style="animation-delay:0.05s">
+      <div class="card-title"><span class="icon">✅</span> Documents & Records <span style="margin-left:auto;font-size:13px;color:var(--muted);font-weight:500;">${done} / ${items.length}</span></div>
+      ${listHtml}
+    </div>
+  `;
+}
+
+function renderExport(t) {
+  return `
+    <div class="page-header fade-up">
+      <h2>Save & Export</h2>
+      <p>Save your progress or export a summary</p>
+    </div>
+
+    <div class="card fade-up" style="animation-delay:0.05s">
+      <div class="card-title"><span class="icon">💾</span> Local Storage</div>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:14px;">Your data is automatically saved in your browser's local storage. Use the buttons below to manage it.</p>
+      <div class="export-actions">
+        <button class="btn btn-primary" onclick="exportJSON()">⬇ Download JSON Backup</button>
+        <button class="btn btn-outline" onclick="document.getElementById('importFile').click()">⬆ Import JSON</button>
+        <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)">
+        <button class="btn btn-danger btn-sm" onclick="if(confirm('Clear all data? This cannot be undone.')){localStorage.removeItem('ausTaxPrep2026');location.reload();}">🗑 Clear All Data</button>
+      </div>
+    </div>
+
+    <div class="card fade-up" style="animation-delay:0.1s">
+      <div class="card-title"><span class="icon">📄</span> Summary Export</div>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:14px;">Copy this summary or use Print to PDF.</p>
+      <pre style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:'JetBrains Mono',monospace;font-size:12px;overflow-x:auto;white-space:pre-wrap;line-height:1.7;">
+AUSTRALIAN TAX PREP — FY 2025-26
+================================
+
+INCOME
+  Salary/Wages:         ${fmt(state.salary.gross)}
+  Tax Withheld:         ${fmt(state.salary.taxWithheld)}
+  Other Income:         ${fmt(state.otherIncome.reduce((s,i) => s + i.amount, 0))}
+${state.otherIncome.map(i => `    - ${i.type}: ${i.description} ${fmt(i.amount)}`).join('\n')}
+
+DEDUCTIONS
+  Work Deductions:      ${fmt(state.workDeductions.reduce((s,i) => s + i.amount, 0))}
+${state.workDeductions.map(i => `    - ${i.category}: ${i.description} ${fmt(i.amount)}`).join('\n')}
+  Investment Deductions: ${fmt(state.investmentDeductions.reduce((s,i) => s + i.amount, 0))}
+${state.investmentDeductions.map(i => `    - ${i.category}: ${i.description} ${fmt(i.amount)}`).join('\n')}
+
+ESTIMATE
+  Taxable Income:       ${fmt(t.taxableIncome)}
+  Income Tax:           ${fmt(t.baseTax)}
+  LITO:                -${fmt(t.lito)}
+  Medicare Levy:        ${fmt(t.medicare)}
+  HELP Repayment:       ${fmt(t.help)}
+  Total Tax:            ${fmt(t.totalTax)}
+  Tax Withheld:         ${fmt(t.withheld)}
+  ${t.refund >= 0 ? 'REFUND' : 'OWING'}:       ${t.refund >= 0 ? '+' : '-'}${fmt(t.refund)}
+</pre>
+      <div class="export-actions" style="margin-top:12px">
+        <button class="btn btn-outline btn-sm" onclick="window.print()">🖨 Print / Save as PDF</button>
+        <button class="btn btn-outline btn-sm" onclick="copyText()">📋 Copy to Clipboard</button>
+      </div>
+    </div>
+  `;
+}
+
+function exportJSON() {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'tax-prep-fy2026.json';
+  a.click();
+}
+
+function importJSON(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      const data = JSON.parse(ev.target.result);
+      state = { ...state, ...data };
+      save(); render();
+      alert('Data imported successfully!');
+    } catch(err) {
+      alert('Invalid JSON file.');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function copyText() {
+  const pre = document.querySelector('pre');
+  if (pre) {
+    navigator.clipboard.writeText(pre.textContent).then(() => alert('Copied!')).catch(() => {});
+  }
+}
+
+// ── QIF Parser ──
+function parseQIF(text) {
+  const transactions = [];
+  const blocks = text.split('^').filter(b => b.trim());
+  for (const block of blocks) {
+    const lines = block.trim().split('\n').map(l => l.trim());
+    let txn = { date: '', amount: 0, description: '', category: '', type: '' };
+    for (const line of lines) {
+      if (!line) continue;
+      const code = line[0];
+      const val = line.substring(1).trim();
+      switch (code) {
+        case 'D': txn.date = parseQIFDate(val); break;
+        case 'T': case 'U': txn.amount = parseFloat(val.replace(/,/g, '')) || 0; break;
+        case 'P': case 'M': if (!txn.description) txn.description = val; break;
+        case 'N': txn.type = val; break;
+        case 'L': txn.category = val; break;
+      }
+    }
+    if (txn.date && txn.amount !== 0) {
+      transactions.push(txn);
+    }
+  }
+  return transactions;
+}
+
+function parseQIFDate(str) {
+  // Handles: DD/MM/YYYY, DD/MM'YY, MM/DD/YYYY, DD-MM-YYYY
+  str = str.replace(/'/g, '/');
+  const parts = str.split(/[\/\-]/);
+  if (parts.length < 3) return str;
+  let d, m, y;
+  // Assume AU format DD/MM/YYYY
+  d = parseInt(parts[0]);
+  m = parseInt(parts[1]);
+  y = parseInt(parts[2]);
+  if (y < 100) y += 2000;
+  // Swap if month > 12 (US format detected)
+  if (m > 12 && d <= 12) { [d, m] = [m, d]; }
+  return `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+}
+
+// ── OFX Parser ──
+function parseOFX(text) {
+  const transactions = [];
+  // Handle both SGML-style OFX (v1) and XML-style OFX (v2)
+  const stmtTrnRegex = /<STMTTRN>([\s\S]*?)(<\/STMTTRN>|(?=<STMTTRN>|<\/BANKTRANLIST))/gi;
+  let match;
+  while ((match = stmtTrnRegex.exec(text)) !== null) {
+    const block = match[1];
+    const txn = {
+      date: extractOFXField(block, 'DTPOSTED'),
+      amount: parseFloat(extractOFXField(block, 'TRNAMT')) || 0,
+      description: extractOFXField(block, 'NAME') || extractOFXField(block, 'MEMO') || '',
+      category: '',
+      type: extractOFXField(block, 'TRNTYPE') || '',
+      fitid: extractOFXField(block, 'FITID') || ''
+    };
+    // Clean description
+    txn.description = txn.description.replace(/\s+/g, ' ').trim();
+    // Parse OFX date format: YYYYMMDD or YYYYMMDDHHMMSS
+    if (txn.date && txn.date.length >= 8) {
+      txn.date = txn.date.substring(0, 4) + '-' + txn.date.substring(4, 6) + '-' + txn.date.substring(6, 8);
+    }
+    if (txn.date && txn.amount !== 0) {
+      transactions.push(txn);
+    }
+  }
+  return transactions;
+}
+
+function extractOFXField(block, field) {
+  // XML style: <FIELD>value</FIELD>
+  const xmlMatch = block.match(new RegExp('<' + field + '>([^<]*)<\/' + field + '>', 'i'));
+  if (xmlMatch) return xmlMatch[1].trim();
+  // SGML style: <FIELD>value\n
+  const sgmlMatch = block.match(new RegExp('<' + field + '>([^\n<]*)', 'i'));
+  if (sgmlMatch) return sgmlMatch[1].trim();
+  return '';
+}
+
+// ── Auto-categorize ──
+const CATEGORY_RULES = [
+  { pattern: /interest\s*(paid|earned|credit)/i, cat: 'Bank Interest', type: 'income' },
+  { pattern: /dividend/i, cat: 'Dividends', type: 'income' },
+  { pattern: /salary|wage|payroll|xero.*pay/i, cat: 'Salary', type: 'income' },
+  { pattern: /centrelink|services\s*aus/i, cat: 'Government Payments', type: 'income' },
+  { pattern: /rental|tenant|real\s*estate/i, cat: 'Rental Income', type: 'income' },
+  { pattern: /uber|didi|ola|taxi|13cabs/i, cat: 'Vehicle / Travel', type: 'deduction' },
+  { pattern: /officeworks|jb\s*hi|harvey\s*norman.*computer|apple.*macbook/i, cat: 'Tools & Equipment', type: 'deduction' },
+  { pattern: /telstra|optus|vodafone|tpg|aussie\s*bb|nbn/i, cat: 'Phone & Internet', type: 'deduction' },
+  { pattern: /union|professional\s*assoc/i, cat: 'Union Fees', type: 'deduction' },
+  { pattern: /tax\s*agent|h&r\s*block|tax\s*return/i, cat: 'Tax Agent Fee', type: 'deduction' },
+  { pattern: /donat|charity|red\s*cross|salvation|unicef|wwf|beyond\s*blue/i, cat: 'Donations (DGR)', type: 'deduction' },
+  { pattern: /course|udemy|education|tuition|university|tafe/i, cat: 'Self-Education', type: 'deduction' },
+  { pattern: /income\s*protect|tpd\s*insurance/i, cat: 'Income Protection', type: 'deduction' },
+];
+
+function autoCategorizeTxn(txn) {
+  for (const rule of CATEGORY_RULES) {
+    if (rule.pattern.test(txn.description)) {
+      return { category: rule.cat, taxType: rule.type };
+    }
+  }
+  return { category: 'Uncategorised', taxType: txn.amount > 0 ? 'income' : 'ignore' };
+}
+
+// ── Import state (transient, not persisted) ──
+let importState = {
+  transactions: [],
+  filter: 'all', // all, income, expense, flagged
+  searchTerm: '',
+};
+
+function handleBankFile(file) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const text = e.target.result;
+    const name = file.name.toLowerCase();
+    let txns = [];
+
+    if (name.endsWith('.qif')) {
+      txns = parseQIF(text);
+    } else if (name.endsWith('.ofx') || name.endsWith('.qfx')) {
+      txns = parseOFX(text);
+    } else {
+      alert('Unsupported file type. Please use .qif, .ofx, or .qfx files.');
+      return;
+    }
+
+    if (txns.length === 0) {
+      alert('No transactions found in this file. Please check the file format.');
+      return;
+    }
+
+    // Sort by date descending
+    txns.sort((a, b) => b.date.localeCompare(a.date));
+
+    // Auto-categorize and add selection flag
+    txns = txns.map((t, i) => {
+      const auto = autoCategorizeTxn(t);
+      return {
+        ...t,
+        id: i,
+        autoCategory: auto.category,
+        taxType: auto.taxType,
+        selected: auto.taxType !== 'ignore',
+        userCategory: auto.category,
+      };
+    });
+
+    // Filter to FY period (Jul 2025 - Jun 2026)
+    const fyTxns = txns.filter(t => t.date >= '2025-07-01' && t.date <= '2026-06-30');
+    const outsideFY = txns.length - fyTxns.length;
+
+    importState.transactions = txns;
+    importState.filter = 'all';
+    importState.fileName = file.name;
+    importState.totalCount = txns.length;
+    importState.fyCount = fyTxns.length;
+    importState.outsideFY = outsideFY;
+
+    render();
+  };
+  reader.readAsText(file);
+}
+
+function renderBankImport() {
+  const txns = importState.transactions;
+
+  if (txns.length === 0) {
+    return renderImportUpload();
+  }
+
+  // Compute summaries
+  const totalIncome = txns.filter(t => t.amount > 0).reduce((s, t) => s + t.amount, 0);
+  const totalExpense = txns.filter(t => t.amount < 0).reduce((s, t) => s + Math.abs(t.amount), 0);
+  const selectedCount = txns.filter(t => t.selected).length;
+  const flaggedCount = txns.filter(t => t.taxType !== 'ignore' && t.autoCategory !== 'Uncategorised').length;
+
+  // Apply filter
+  let filtered = txns;
+  if (importState.filter === 'income') filtered = txns.filter(t => t.amount > 0);
+  else if (importState.filter === 'expense') filtered = txns.filter(t => t.amount < 0);
+  else if (importState.filter === 'flagged') filtered = txns.filter(t => t.selected);
+
+  if (importState.searchTerm) {
+    const term = importState.searchTerm.toLowerCase();
+    filtered = filtered.filter(t => t.description.toLowerCase().includes(term));
+  }
+
+  const categoryOptions = `
+    <option value="ignore">— Skip —</option>
+    <optgroup label="Income">
+      <option value="income:Bank Interest">Bank Interest</option>
+      <option value="income:Dividends">Dividends</option>
+      <option value="income:Rental Income">Rental Income</option>
+      <option value="income:Capital Gains">Capital Gains</option>
+      <option value="income:Freelance/ABN">Freelance/ABN</option>
+      <option value="income:Crypto">Crypto</option>
+      <option value="income:Foreign Income">Foreign Income</option>
+      <option value="income:Government Payments">Govt Payments</option>
+      <option value="income:Other">Other Income</option>
+    </optgroup>
+    <optgroup label="Work Deductions">
+      <option value="work:Work from Home">Work from Home</option>
+      <option value="work:Vehicle / Travel">Vehicle / Travel</option>
+      <option value="work:Clothing / Laundry">Clothing / Laundry</option>
+      <option value="work:Self-Education">Self-Education</option>
+      <option value="work:Tools & Equipment">Tools & Equipment</option>
+      <option value="work:Phone & Internet">Phone & Internet</option>
+      <option value="work:Union Fees">Union Fees</option>
+      <option value="work:Donations (DGR)">Donations (DGR)</option>
+      <option value="work:Tax Agent Fee">Tax Agent Fee</option>
+      <option value="work:Income Protection">Income Protection</option>
+      <option value="work:Other">Other Work</option>
+    </optgroup>
+    <optgroup label="Investment Deductions">
+      <option value="invest:Interest (Loan)">Interest (Loan)</option>
+      <option value="invest:Property Depreciation">Property Depreciation</option>
+      <option value="invest:Property Repairs">Property Repairs</option>
+      <option value="invest:Property Management">Property Mgmt</option>
+      <option value="invest:Property Insurance">Property Insurance</option>
+      <option value="invest:Share Trading Costs">Share Trading</option>
+      <option value="invest:Accounting Fees">Accounting Fees</option>
+      <option value="invest:Other">Other Investment</option>
+    </optgroup>
+  `;
+
+  const txnRows = filtered.slice(0, 200).map(t => {
+    const amtClass = t.amount > 0 ? 'income' : 'expense';
+    const currentVal = t.selected ? getCategoryValue(t) : 'ignore';
+    return `
+      <div class="txn-row">
+        <div class="txn-date">${formatDisplayDate(t.date)}</div>
+        <div class="txn-desc" title="${escapeHTML(t.description)}">${escapeHTML(t.description)}</div>
+        <div class="txn-cat-col">
+          <select onchange="updateTxnCategory(${t.id}, this.value)" style="width:100%">
+            ${categoryOptions.replace('value="' + currentVal + '"', 'value="' + currentVal + '" selected')}
+          </select>
+        </div>
+        <div class="txn-amount ${amtClass}">${t.amount > 0 ? '+' : ''}${fmt(t.amount)}</div>
+        <div><input type="checkbox" class="txn-check" ${t.selected ? 'checked' : ''} onchange="toggleTxn(${t.id})"></div>
+      </div>`;
+  }).join('');
+
+  return `
+    <div class="page-header fade-up">
+      <h2>Bank Import</h2>
+      <p>Review transactions from <strong>${escapeHTML(importState.fileName)}</strong> — ${txns.length} transactions loaded</p>
+    </div>
+
+    <div class="import-summary-grid fade-up" style="animation-delay:0.05s">
+      <div class="import-stat">
+        <div class="stat-label">Transactions</div>
+        <div class="stat-value">${txns.length}</div>
+      </div>
+      <div class="import-stat">
+        <div class="stat-label">Total In</div>
+        <div class="stat-value" style="color:var(--positive)">+${fmt(totalIncome)}</div>
+      </div>
+      <div class="import-stat">
+        <div class="stat-label">Total Out</div>
+        <div class="stat-value" style="color:var(--danger)">-${fmt(totalExpense)}</div>
+      </div>
+      <div class="import-stat">
+        <div class="stat-label">Selected</div>
+        <div class="stat-value">${selectedCount}</div>
+      </div>
+    </div>
+
+    ${importState.outsideFY > 0 ? `
+      <div class="alert alert-warn fade-up" style="animation-delay:0.08s">
+        <span class="icon">⚠️</span>
+        <div>${importState.outsideFY} transaction(s) fall outside FY 2025-26 (1 Jul 2025 – 30 Jun 2026). They're still shown but won't affect your tax estimate unless selected.</div>
+      </div>
+    ` : ''}
+
+    <div class="card fade-up" style="animation-delay:0.1s">
+      <div class="card-title"><span class="icon">📋</span> Review & Categorise</div>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:14px;">
+        Tick transactions that are tax-relevant and assign a category. Auto-detected items are pre-selected.
+      </p>
+
+      <div class="filter-bar">
+        <span class="filter-chip ${importState.filter==='all'?'active':''}" onclick="importState.filter='all';render();">All (${txns.length})</span>
+        <span class="filter-chip ${importState.filter==='income'?'active':''}" onclick="importState.filter='income';render();">Income (${txns.filter(t=>t.amount>0).length})</span>
+        <span class="filter-chip ${importState.filter==='expense'?'active':''}" onclick="importState.filter='expense';render();">Expenses (${txns.filter(t=>t.amount<0).length})</span>
+        <span class="filter-chip ${importState.filter==='flagged'?'active':''}" onclick="importState.filter='flagged';render();">Selected (${selectedCount})</span>
+        <div style="flex:1"></div>
+        <input type="text" placeholder="Search transactions..." value="${escapeHTML(importState.searchTerm || '')}"
+          oninput="importState.searchTerm=this.value;render();"
+          style="max-width:200px;padding:5px 12px;font-size:12px;border-radius:20px;">
+      </div>
+
+      <div class="txn-row header">
+        <div>Date</div>
+        <div>Description</div>
+        <div class="txn-cat-col">Category</div>
+        <div style="text-align:right">Amount</div>
+        <div>✓</div>
+      </div>
+      <div style="max-height:500px;overflow-y:auto;">
+        ${txnRows}
+      </div>
+      ${filtered.length > 200 ? `<p style="color:var(--muted);font-size:12px;padding:10px 0;">Showing first 200 of ${filtered.length} transactions.</p>` : ''}
+    </div>
+
+    <div class="card fade-up" style="animation-delay:0.15s">
+      <div class="card-title"><span class="icon">🚀</span> Apply to Tax Return</div>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:14px;">
+        This will add all selected & categorised transactions to your income and deduction sections.
+      </p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="applyImportedTransactions()">✓ Apply ${selectedCount} Transactions</button>
+        <button class="btn btn-outline" onclick="importState.transactions=[];render();">↩ Clear & Re-upload</button>
+      </div>
+    </div>
+
+    <div class="alert alert-info fade-up" style="animation-delay:0.2s">
+      <span class="icon">💡</span>
+      <div><strong>Tip:</strong> Most personal expenses (groceries, rent, entertainment) aren't deductible. Only select items with a genuine nexus to earning your income. The ATO data-matches bank interest and dividends, so make sure those are included.</div>
+    </div>
+  `;
+}
+
+function renderImportUpload() {
+  return `
+    <div class="page-header fade-up">
+      <h2>Bank Import</h2>
+      <p>Import QIF or OFX bank statements to auto-detect income and deductible transactions</p>
+    </div>
+
+    <div class="card fade-up" style="animation-delay:0.05s">
+      <div class="card-title"><span class="icon">🏦</span> Upload Bank File</div>
+
+      <div class="drop-zone" id="dropZone"
+        onclick="document.getElementById('bankFileInput').click();"
+        ondragover="event.preventDefault();this.classList.add('dragover');"
+        ondragleave="this.classList.remove('dragover');"
+        ondrop="event.preventDefault();this.classList.remove('dragover');handleBankFile(event.dataTransfer.files[0]);">
+        <div class="drop-icon">📂</div>
+        <div class="drop-title">Drop your bank file here or click to browse</div>
+        <div class="drop-sub">Supports .qif, .ofx, and .qfx formats</div>
+      </div>
+      <input type="file" id="bankFileInput" accept=".qif,.ofx,.qfx" style="display:none"
+        onchange="if(this.files[0]) handleBankFile(this.files[0]);">
+    </div>
+
+    <div class="card fade-up" style="animation-delay:0.1s">
+      <div class="card-title"><span class="icon">📖</span> How to Export from Your Bank</div>
+      <table class="item-table">
+        <thead><tr><th>Bank</th><th>Steps</th></tr></thead>
+        <tbody>
+          <tr><td><strong>CommBank</strong></td><td>NetBank → Transactions → Export → QIF or OFX</td></tr>
+          <tr><td><strong>ANZ</strong></td><td>Internet Banking → Transactions → Download → OFX</td></tr>
+          <tr><td><strong>Westpac</strong></td><td>Online Banking → Account → Download Transactions → QIF</td></tr>
+          <tr><td><strong>NAB</strong></td><td>Internet Banking → Transactions → Export → OFX</td></tr>
+          <tr><td><strong>ING</strong></td><td>Transactions → Export → Choose QIF or OFX</td></tr>
+          <tr><td><strong>Macquarie</strong></td><td>Banking → Transactions → Download → OFX</td></tr>
+          <tr><td><strong>Up / Bendigo / etc.</strong></td><td>Check transaction history → Export/Download option</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert alert-info fade-up" style="animation-delay:0.15s">
+      <span class="icon">🔒</span>
+      <div><strong>Your data stays local.</strong> Files are parsed entirely in your browser. Nothing is uploaded to any server.</div>
+    </div>
+  `;
+}
+
+function getCategoryValue(txn) {
+  const cat = txn.userCategory || txn.autoCategory;
+  if (txn.taxType === 'income') return 'income:' + cat;
+  if (txn.taxType === 'deduction') {
+    // Determine if work or investment deduction
+    const investCats = ['Interest (Loan)', 'Property Depreciation', 'Property Repairs', 'Property Management', 'Property Insurance', 'Share Trading Costs', 'Accounting Fees'];
+    if (investCats.includes(cat)) return 'invest:' + cat;
+    return 'work:' + cat;
+  }
+  return 'ignore';
+}
+
+function updateTxnCategory(id, value) {
+  const txn = importState.transactions.find(t => t.id === id);
+  if (!txn) return;
+  if (value === 'ignore') {
+    txn.selected = false;
+    txn.taxType = 'ignore';
+  } else {
+    txn.selected = true;
+    const [type, ...catParts] = value.split(':');
+    const cat = catParts.join(':');
+    txn.userCategory = cat;
+    if (type === 'income') txn.taxType = 'income';
+    else txn.taxType = 'deduction';
+  }
+  render();
+}
+
+function toggleTxn(id) {
+  const txn = importState.transactions.find(t => t.id === id);
+  if (!txn) return;
+  txn.selected = !txn.selected;
+  if (!txn.selected) txn.taxType = 'ignore';
+  else if (txn.amount > 0) txn.taxType = 'income';
+  else txn.taxType = 'deduction';
+  render();
+}
+
+function applyImportedTransactions() {
+  const selected = importState.transactions.filter(t => t.selected);
+  if (selected.length === 0) {
+    alert('No transactions selected. Tick the checkbox on transactions you want to include.');
+    return;
+  }
+
+  let incomeAdded = 0, workAdded = 0, investAdded = 0;
+
+  for (const txn of selected) {
+    const cat = txn.userCategory || txn.autoCategory || 'Other';
+    const amt = Math.abs(txn.amount);
+    const desc = txn.description.substring(0, 60) + (txn.date ? ' (' + formatDisplayDate(txn.date) + ')' : '');
+
+    const catVal = getCategoryValue(txn);
+
+    if (catVal.startsWith('income:')) {
+      state.otherIncome.push({ type: cat, description: desc, amount: amt });
+      incomeAdded++;
+    } else if (catVal.startsWith('work:')) {
+      state.workDeductions.push({ category: cat, description: desc, amount: amt });
+      workAdded++;
+    } else if (catVal.startsWith('invest:')) {
+      state.investmentDeductions.push({ category: cat, description: desc, amount: amt });
+      investAdded++;
+    }
+  }
+
+  save();
+  importState.transactions = [];
+
+  const msg = `Applied: ${incomeAdded} income, ${workAdded} work deductions, ${investAdded} investment deductions.`;
+  alert(msg);
+
+  navigate('overview');
+}
+
+function formatDisplayDate(dateStr) {
+  if (!dateStr) return '';
+  const parts = dateStr.split('-');
+  if (parts.length === 3) return parts[2] + '/' + parts[1] + '/' + parts[0];
+  return dateStr;
+}
+
+function escapeHTML(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Init ──
+render();
+</script>
+</body>
+</html>
